@@ -4,7 +4,7 @@ const PlayerSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
   position: String,
-  player: ObjectId
+  clubId: mongoose.Types.ObjectId
 })
 
 const PlayerCollection = mongoose.model('Player', PlayerSchema)

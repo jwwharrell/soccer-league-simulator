@@ -2,7 +2,7 @@ const mongoose = require('../connection.js')
 
 const ClubSchema = mongoose.Schema({
   name: String,
-  league: ObjectId,
+  leagueId: mongoose.Types.ObjectId,
   players: [{ type : ObjectId, ref: 'Player' }]
 })
 
@@ -14,6 +14,10 @@ const getAllClubs = () => {
 
 const getClubById = (clubId) => {
   return ClubCollection.findById(clubId)
+}
+
+const getAllClubsByLeagueId = (leagueId) => {
+    return ClubCollection.find({ leagueId: leagueId })
 }
 
 const addNewClub = (newClub) => {
@@ -33,6 +37,7 @@ const deleteCurrentClub = (clubId) => {
 module.exports = {
   getAllClubs,
   getClubById,
+  getAllClubsByLeagueId,
   addNewClub,
   updateCurrentClub,
   deleteCurrentClub
