@@ -2,8 +2,8 @@ const mongoose = require('../connection.js')
 
 const ClubSchema = mongoose.Schema({
   name: String,
-  leagueId: mongoose.Types.ObjectId,
-  players: [{ type : ObjectId, ref: 'Player' }]
+  leagueId: mongoose.ObjectId,
+  players: [{ type : mongoose.ObjectId, ref: 'Player' }]
 })
 
 const ClubCollection = mongoose.model('Club', ClubSchema)

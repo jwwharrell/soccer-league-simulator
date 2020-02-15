@@ -22,7 +22,7 @@ leagueRouter.get('/:leagueId', async (req, res) => {
     try {
         const singleLeague = await leagueApi.getLeagueById(req.params.leagueId)
         const allClubs = await clubApi.getAllClubsByLeagueId(req.params.leagueId)
-        res.json({singleLeague, allClubs})
+        res.json({ singleLeague, allClubs })
     } catch (e) {
         console.error(e)
     }
@@ -40,25 +40,25 @@ leagueRouter.post('/', async (req, res) => {
 
 //Update One
 leagueRouter.put('/:leagueId', async (req, res) => {
-  try {
-      const oneLeague = await leagueApi.updateCurrentLeague(req.params.leagueId, req.body)
-      res.json(oneLeague)
-  } catch (e) {
-      console.error(e)
-  }
+    try {
+        const oneLeague = await leagueApi.updateCurrentLeague(req.params.leagueId, req.body)
+        res.json(oneLeague)
+    } catch (e) {
+        console.error(e)
+    }
 })
 
 //Delete One
 leagueRouter.delete('/:leagueId', async (req, res) => {
-  try {
-      const deletedLeague = await leagueApi.deleteCurrentLeague(req.params.leagueId)
-      res.json(deletedLeague)
-  } catch (e) {
-      console.error(e)
-  }
+    try {
+        const deletedLeague = await leagueApi.deleteCurrentLeague(req.params.leagueId)
+        res.json(deletedLeague)
+    } catch (e) {
+        console.error(e)
+    }
 })
 
 
 module.exports = {
-  leagueRouter
+    leagueRouter
 }

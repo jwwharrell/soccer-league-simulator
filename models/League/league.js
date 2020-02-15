@@ -6,7 +6,7 @@ const LeagueSchema = mongoose.Schema({
   proPossible: Boolean,
   relPossible: Boolean,
   numberOfClubs: Number,
-  clubs: [{ type : ObjectId, ref: 'Club' }]
+  clubs: [{ type : mongoose.ObjectId, ref: 'Club' }]
 })
 
 const LeagueCollection = mongoose.model('League', LeagueSchema)
