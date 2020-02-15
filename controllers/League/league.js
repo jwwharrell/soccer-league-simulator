@@ -4,8 +4,6 @@ const leagueApi = require('../../models/League/league.js')
 
 const clubApi = require('../../models/Club/club.js')
 
-const playerApi = require('../../models/Player/player.js')
-
 const leagueRouter = express.Router()
 
 
@@ -41,23 +39,26 @@ leagueRouter.post('/', async (req, res) => {
 })
 
 //Update One
-
-customerRouter.put('/:customerId', (req, res) => {
-  customerApi.updateCurrentCustomer(req.params.customerId, req.body)
-    .then((oneCustomer) => {
-      res.json(oneCustomer)
-    }) 
+leagueRouter.put('/:leagueId', async (req, res) => {
+  try {
+      const oneLeague = await leagueApi.updateCurrentLeague(req.params.leagueId, req.body)
+      res.json(oneLeague)
+  } catch (e) {
+      console.error(e)
+  }
 })
 
 //Delete One
-customerRouter.delete('/:customerId', (req, res) => {
-  customerApi.deleteCurrentCustomer(req.params.customerId)
-    .then((deletedCustomer) => {
-      res.json(deletedCustomer)
-    })
+leagueRouter.delete('/:leagueId', async (req, res) => {
+  try {
+      const deletedLeague = await leagueApi.deleteCurrentLeague(req.params.leagueId)
+      res.json(deletedLeague)
+  } catch (e) {
+      console.error(e)
+  }
 })
 
 
 module.exports = {
-  customerRouter
+  leagueRouter
 }
