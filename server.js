@@ -13,9 +13,9 @@ app.use(express.json())
 app.use(express.static(`${__dirname}/client/build`))
 
 
-app.use('/api/league', leagueRouter)
-app.use('/api/club', clubRouter)
-app.use('/api/player', playerRouter)
+app.use('/api/league/', leagueRouter)
+app.use('/api/club/', clubRouter)
+app.use('/api/player/', playerRouter)
 
 app.get('/*', (req, res) => {
     res.sendFile(`${__dirname}/client/build/index.html`)

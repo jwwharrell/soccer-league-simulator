@@ -20,11 +20,12 @@ clubRouter.get('/', async (req, res) => {
 //Get One
 clubRouter.get('/:clubId', async (req, res) => {
     try {
+        console.log('trying to get one club')
         const singleClub = await clubApi.getClubById(req.params.clubId)
         const allPlayers = await playerApi.getAllPlayersByClubId(req.params.clubId)
         res.json({ singleClub, allPlayers })
     } catch (e) {
-        console.error(e)
+        console.log(e)
     }
 })
 

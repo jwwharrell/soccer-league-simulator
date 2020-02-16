@@ -17,6 +17,10 @@ const getPlayerById = (playerId) => {
   return PlayerCollection.findById(playerId)
 }
 
+const getAllPlayersByClubId = (clubId) => {
+  return PlayerCollection.find({ clubId: clubId })
+}
+
 const addNewPlayer = (newPlayer) => {
   return PlayerCollection.create(newPlayer)
 }
@@ -34,6 +38,7 @@ const deleteCurrentPlayer = (playerId) => {
 module.exports = {
   getAllPlayers,
   getPlayerById,
+  getAllPlayersByClubId,
   addNewPlayer,
   updateCurrentPlayer,
   deleteCurrentPlayer
