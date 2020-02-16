@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 export default class SingleLeague extends Component {
     state = {
@@ -23,7 +24,16 @@ export default class SingleLeague extends Component {
     render() {
         return (
             <div>
-                Hello!
+                <h1>{this.state.league.name}</h1>
+                <h2>Clubs</h2>
+                <ol>
+                    {this.state.allClubs.map((club) => {
+                        let clubLink = `/club/${club._id}`
+                        return (
+                            <Link to={clubLink} key={club._id}><li>{club.name}</li></Link>
+                        )
+                    })}
+                </ol>
             </div>
         )
     }
