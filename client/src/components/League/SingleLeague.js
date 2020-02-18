@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import Schedule from './Schedule/Schedule.js'
 
 export default class SingleLeague extends Component {
     state = {
@@ -10,7 +11,7 @@ export default class SingleLeague extends Component {
         filteredClubs: [],
         selectedClub: '',
         filterButtonClicked: true,
-        seasonLength: 4
+        timesClubsPlayEachOther: 2
     }
 
 
@@ -102,6 +103,7 @@ export default class SingleLeague extends Component {
                         )
                     })}
                 </ol>
+                <Schedule allClubs={this.state.currentClubs}/>
             </div>
         )
     }
