@@ -6,8 +6,10 @@ export default class SingleClub extends Component {
     state = {
         club: '',
         currentPlayers: [],
-        availablePlayers: [],
-        selectedPlayer: ''
+        allPlayers: [],
+        filteredPlayers: [],
+        selectedPlayer: '',
+        filterButtonClicked: true
     }
 
 
@@ -19,12 +21,7 @@ export default class SingleClub extends Component {
         let clubId = this.props.match.params.clubId
         let res = await axios.get(`/api/club/${clubId}`)
         let secondRes = await axios.get('/api/player/')
-        //
-        let available = secondRes.data.filter((player) => {
-            return player.clubId !== res.data.singleClub._id
-        })
-        //Address this^^
-        this.setState({ club: res.data.singleClub, currentPlayers: res.data.allPlayers, allPlayers: available })
+        this.setState({ club: res.data.singleClub, currentPlayers: res.data.allPlayers, allPlayers: secondRes.data, filteredPlayers: secondRes.data })
     }
 
     onSelectChange = (e) => {
@@ -43,6 +40,29 @@ export default class SingleClub extends Component {
         this.getClub()
     }
 
+    onFilterPlayerClick = () => {
+        const previousState = { ...this.state }
+        previousState.filterButtonClicked = !this.state.filterButtonClicked
+        this.setState(previousState)
+        if (this.state.filterButtonClicked) {
+            this.filterPlayers()
+        } else {
+            this.showAllPlayers()
+        }
+    }
+
+    filterPlayers = () => {
+        let filteredPlayers = this.state.allPlayers.filter((player) => {
+            return player.clubId !== this.state.club._id
+        })
+        this.setState({ filteredPlayers })
+    }
+
+    showAllPlayers = () => {
+        let filteredPlayers = this.state.allPlayers
+        this.setState({ filteredPlayers })
+    }
+
 
     render() {
         return (
@@ -54,7 +74,10 @@ export default class SingleClub extends Component {
                     <select
                         onChange={this.onSelectChange}
                     >
-                        {this.state.availablePlayers.map((player) => {
+                        <option
+                            value={null}
+                        >{this.state.filteredPlayers.length ? '---Select A Player---' : '---No Players Available---'}</option>
+                        {this.state.filteredPlayers.map((player) => {
                             return (
                                 <option value={player._id} key={'dropdown-key-' + player._id}>{player.firstName} {player.lastName}</option>
                             )
@@ -62,8 +85,14 @@ export default class SingleClub extends Component {
                     </select>
                     <input
                         type='submit'
+                        disabled={!this.state.selectedPlayer}
                     />
                 </form>
+                <button
+                        onClick={this.onFilterPlayerClick}
+                >
+                    {this.state.filterButtonClicked ? `Hide ${this.state.club.name} Players` : 'Show All Players'}
+                </button>
                 <h2>Players</h2>
                 <ul>
                     {this.state.currentPlayers.map((player) => {
