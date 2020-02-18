@@ -6,7 +6,7 @@ export default class SingleClub extends Component {
     state = {
         club: '',
         currentPlayers: [],
-        allPlayers: [],
+        availablePlayers: [],
         selectedPlayer: ''
     }
 
@@ -19,7 +19,12 @@ export default class SingleClub extends Component {
         let clubId = this.props.match.params.clubId
         let res = await axios.get(`/api/club/${clubId}`)
         let secondRes = await axios.get('/api/player/')
-        this.setState({ club: res.data.singleClub, currentPlayers: res.data.allPlayers, allPlayers: secondRes.data })
+        //
+        let available = secondRes.data.filter((player) => {
+            return player.clubId !== res.data.singleClub._id
+        })
+        //Address this^^
+        this.setState({ club: res.data.singleClub, currentPlayers: res.data.allPlayers, allPlayers: available })
     }
 
     onSelectChange = (e) => {
@@ -49,7 +54,7 @@ export default class SingleClub extends Component {
                     <select
                         onChange={this.onSelectChange}
                     >
-                        {this.state.allPlayers.map((player) => {
+                        {this.state.availablePlayers.map((player) => {
                             return (
                                 <option value={player._id} key={'dropdown-key-' + player._id}>{player.firstName} {player.lastName}</option>
                             )
