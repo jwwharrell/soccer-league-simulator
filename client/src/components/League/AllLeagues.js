@@ -12,7 +12,7 @@ export default class AllLeagues extends Component {
 
     componentDidMount() {
         this.getLeagues()
-    } 
+    }
 
     getLeagues = async () => {
         let res = await axios.get('/api/league/')
@@ -26,7 +26,7 @@ export default class AllLeagues extends Component {
     }
 
     onCreateSubmit = (newLeague) => {
-        axios.post('/api/league/', newLeague) 
+        axios.post('/api/league/', newLeague)
         this.getLeagues()
     }
 
@@ -36,10 +36,10 @@ export default class AllLeagues extends Component {
             <div>
                 <button onClick={this.onCreateClick}>Create League</button>
                 {this.state.createFormShow ?
-                <CreateLeague
-                    onCreateSubmit={this.onCreateSubmit}
-                />
-                : null
+                    <CreateLeague
+                        onCreateSubmit={this.onCreateSubmit}
+                    />
+                    : null
                 }
                 {this.state.listOfLeagues.map((league) => {
                     let leagueLink = `/league/${league._id}`
