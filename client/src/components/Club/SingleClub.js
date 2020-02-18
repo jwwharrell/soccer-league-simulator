@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom'
 export default class SingleClub extends Component {
     state = {
         club: '',
-        players: []
+        currentPlayers: [],
+        allPlayers: [],
+        selectedPlayer: ''
     }
 
 
@@ -16,17 +18,50 @@ export default class SingleClub extends Component {
     getClub = async () => {
         let clubId = this.props.match.params.clubId
         let res = await axios.get(`/api/club/${clubId}`)
-        this.setState({ club: res.data.singleClub, players: res.data.allPlayers })
+        let secondRes = await axios.get('/api/player/')
+        this.setState({ club: res.data.singleClub, currentPlayers: res.data.allPlayers, allPlayers: secondRes.data })
+    }
+
+    onSelectChange = (e) => {
+        let playerId = e.target.value
+        let selectedPlayer = this.state.allPlayers.filter((player) => {
+            return player._id === playerId
+        })[0]
+        this.setState({selectedPlayer})
+    }
+
+    onSelectSubmit = (e) => {
+        e.preventDefault()
+        let player = this.state.selectedPlayer
+        player.clubId = this.state.club._id
+        axios.put(`/api/player/${player._id}`, player)
+        this.getClub()
     }
 
 
     render() {
         return (
             <div>
-            <h1>{this.state.club.name}</h1>
+                <h1>{this.state.club.name}</h1>
+                <form
+                    onSubmit={this.onSelectSubmit}
+                >
+                    <select
+                        onChange={this.onSelectChange}
+                    >
+                        {this.state.allPlayers.map((player) => {
+                            return (
+                                <option value={player._id} key={'dropdown-key-' + player._id}>{player.firstName} {player.lastName}</option>
+                            )
+                        })}
+                    </select>
+                    <input
+                        type='submit'
+                    />
+                </form>
                 <h2>Players</h2>
                 <ul>
-                    {this.state.players.map((player) => {
+                    {this.state.currentPlayers.map((player) => {
                         let playerLink = `/player/${player._id}`
                         return (
                             <Link to={playerLink} key={player._id}><li>{player.firstName} {player.lastName}</li></Link>
