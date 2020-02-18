@@ -16,7 +16,6 @@ export default class SingleLeague extends Component {
     getLeague = async () => {
         let leagueId = this.props.match.params.leagueId
         let res = await axios.get(`/api/league/${leagueId}`)
-        console.log("This should be the response data: " + res)
         this.setState({ league: res.data.singleLeague, allClubs: res.data.allClubs })
     }
 

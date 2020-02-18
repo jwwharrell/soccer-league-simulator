@@ -11,13 +11,11 @@ export default class SingleClub extends Component {
 
     componentDidMount() {
         this.getClub()
-        console.log('Mounted!')
     }
 
     getClub = async () => {
         let clubId = this.props.match.params.clubId
         let res = await axios.get(`/api/club/${clubId}`)
-        console.log("This should be the response data: " + res)
         this.setState({ club: res.data.singleClub, players: res.data.allPlayers })
     }
 
