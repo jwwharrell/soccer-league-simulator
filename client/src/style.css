@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.schedule p {
+  border: solid black 1px;
+  padding: 5px;
+}

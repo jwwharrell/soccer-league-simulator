@@ -11,7 +11,7 @@ export default class SingleLeague extends Component {
         filteredClubs: [],
         selectedClub: '',
         filterButtonClicked: true,
-        timesClubsPlayEachOther: 2
+        timesClubsPlayEachOther: 2,
     }
 
 
