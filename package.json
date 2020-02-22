@@ -6,10 +6,14 @@
   "dependencies": {
     "concurrently": "^4.1.1",
     "express": "^4.17.1",
+<<<<<<< HEAD
     "mongoose": "^5.6.1",
     "node-sass": "^4.13.1",
     "react-data-table-component": "^6.3.0",
     "styled-components": "^5.0.1"
+=======
+    "mongoose": "^5.7.5"
+>>>>>>> 5c462f65bd1a4a3024ae1839656afcf6c7a53714
   },
   "engines": {
     "node": "10.x"
