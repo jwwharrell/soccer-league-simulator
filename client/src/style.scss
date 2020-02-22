@@ -1,0 +1,53 @@
+$font: #D2D2D2;
+$background: #353535;
+$menu-background: #121212;
+$accent: #A1FFCB;
+$shade: #BAFFD9;
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $font;
+  background-color: $background;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+h1, h2, h3 {
+  font-weight: 200;
+}
+
+a {
+  text-decoration: none;
+  color: $accent;
+  
+  &:hover {
+    color: $shade;
+  }
+}
+
+button {
+  border: solid $font 2px;
+  color: $font;
+  background-color: $menu-background;
+  font-size: 12px;
+  border-radius: 1px;
+
+  &:focus {
+    outline: $accent auto 5px;
+}
+}
+
+
+.schedule p {
+  border: solid black 1px;
+  padding: 5px;
+}
