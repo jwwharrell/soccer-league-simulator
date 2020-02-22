@@ -46,7 +46,7 @@ export default class Schedule extends Component {
             {
                 name: 'Club',
                 selector: 'name',
-                sortable: true
+                sortable: true,
             },
             {
                 name: 'Points',
@@ -93,12 +93,16 @@ export default class Schedule extends Component {
                     </div>
                 : null
                 } */}
+                <br />
+                <br />
                 {schedule.length ?
                     <DataTable
                         className='table'
                         title="League Table"
                         columns={columns}
                         data={data}
+                        theme='dark'
+                        
                     />
                     : null
                 }
