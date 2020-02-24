@@ -6,9 +6,8 @@ import DataTable from 'react-data-table-component'
 export default class Schedule extends Component {
     state = {
         schedule: [],
-        newSeasonClicked: false,
-        fixtureResults: [],
-        leagueTable: []
+        leagueTable: [],
+
     }
 
     createSchedule = () => {
@@ -19,7 +18,7 @@ export default class Schedule extends Component {
         allClubs.map((club) => {
             allClubs.forEach((clubTwo) => {
                 if (club._id !== clubTwo._id) {
-                    schedule.push({ home: club, away: clubTwo, week: week })
+                    schedule.push({ home: club, away: clubTwo, week: week, score: {home: '', away: ''} })
                     week++
                 }
             })
@@ -34,9 +33,19 @@ export default class Schedule extends Component {
 
     }
 
+    getRandomInt = (max) => {
+        return Math.floor(Math.random() * Math.floor(max))
+    }
+
     handleNewSeason = () => {
-        const newSeasonClicked = !this.state.newSeasonClicked
-        this.setState({ newSeasonClicked })
+        let simulatedSeason = this.state.schedule
+        const previousState = {...this.state}
+        simulatedSeason.map((week) => {
+            week.score.away = this.getRandomInt(5)
+            week.score.home = this.getRandomInt(6)
+        })
+        previousState.schedule = simulatedSeason
+        this.setState(previousState)
     }
 
     render() {
