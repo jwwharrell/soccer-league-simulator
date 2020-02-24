@@ -38,13 +38,12 @@ export default class Schedule extends Component {
     }
 
     handleNewSeason = () => {
-        let simulatedSeason = this.state.schedule
         const previousState = {...this.state}
-        simulatedSeason.map((week) => {
+        previousState.schedule.map((week) => {
             week.score.away = this.getRandomInt(5)
             week.score.home = this.getRandomInt(6)
         })
-        previousState.schedule = simulatedSeason
+
         this.setState(previousState)
     }
 
