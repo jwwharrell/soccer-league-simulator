@@ -7,7 +7,7 @@ export default class Schedule extends Component {
     state = {
         schedule: [],
         leagueTable: [],
-
+        
     }
 
     createSchedule = () => {
@@ -28,6 +28,8 @@ export default class Schedule extends Component {
             club.wins = 0
             club.draws = 0
             club.losses = 0
+            club.goalsFor = 0
+            club.goalsAgainst = 0
         })
         this.setState({ schedule, leagueTable })
 
@@ -42,6 +44,24 @@ export default class Schedule extends Component {
         previousState.schedule.map((week) => {
             week.score.away = this.getRandomInt(5)
             week.score.home = this.getRandomInt(6)
+            week.home.goalsFor += week.score.home
+            week.home.goalsAgainst += week.score.away
+            week.away.goalsFor += week.score.away
+            week.away.goalsAgainst += week.score.home
+            if (week.score.home === week.score.away) {
+                week.home.draws ++
+                week.home.points ++
+                week.away.draws ++
+                week.away.points ++
+            } else if (week.score.home > week.score.away) {
+                week.home.wins ++
+                week.home.points += 3
+                week.away.losses ++
+            } else {
+                week.away.wins ++
+                week.away.points += 3
+                week.home.losses ++
+            }
         })
 
         this.setState(previousState)
@@ -74,6 +94,16 @@ export default class Schedule extends Component {
             {
                 name: 'Losses',
                 selector: 'losses',
+                sortable: true
+            },
+            {
+                name: 'GF',
+                selector: 'goalsFor',
+                sortable: true
+            },
+            {
+                name: 'GA',
+                selector: 'goalsAgainst',
                 sortable: true
             },
         ]
