@@ -6,7 +6,7 @@ const LeagueSchema = mongoose.Schema({
   proPossible: Boolean,
   relPossible: Boolean,
   numberOfClubs: Number,
-  clubs: [{ type : mongoose.ObjectId, ref: 'Club' }]
+  countryId: mongoose.ObjectId
 })
 
 const LeagueCollection = mongoose.model('League', LeagueSchema)
@@ -17,6 +17,10 @@ const getAllLeagues = () => {
 
 const getLeagueById = (leagueId) => {
   return LeagueCollection.findById(leagueId)
+}
+
+const getAllLeaguesByCountryId = (countryId) => {
+  return ClubCollection.find({ countryId: countryId })
 }
 
 const addNewLeague = (newLeague) => {
@@ -36,6 +40,7 @@ const deleteCurrentLeague = (leagueId) => {
 module.exports = {
   getAllLeagues,
   getLeagueById,
+  getAllLeaguesByCountryId,
   addNewLeague,
   updateCurrentLeague,
   deleteCurrentLeague
