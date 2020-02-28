@@ -51,3 +51,10 @@ button {
   border: solid black 1px;
   padding: 5px;
 }
+.simArena {
+  
+  .buttonList {
+    display: flex;
+    justify-content: space-around;
+  }
+}

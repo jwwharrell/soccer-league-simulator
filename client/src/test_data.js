@@ -1,6 +1,14 @@
 export default {
     continents: [
         {
+            name: 'Africa',
+            countries: []
+        },
+        {
+            name: 'Asia',
+            countries: []
+        },
+        {
             name: 'Europe',
             countries: [
                 {
@@ -45,6 +53,19 @@ export default {
                     ]
                 }
             ]
+        },
+        {
+            name: 'North America',
+            countries: []
+        },
+        
+        {
+            name: 'Oceania',
+            countries: []
+        },
+        {
+            name: 'South America',
+            countries: []
         },
     ]
 }

@@ -10,6 +10,8 @@ export default class Dashboard extends Component {
                 <Link to='/league'><h2>All Leagues</h2></Link>
                 <Link to='/club'><h2>All Clubs</h2></Link>
                 <Link to='/player'><h2>All Players</h2></Link>
+                <hr />
+                <Link to='/sim'><h2>Simulation Arena</h2></Link>
             </div>
         )
     }
