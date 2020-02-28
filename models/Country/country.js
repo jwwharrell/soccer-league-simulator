@@ -1,15 +1,11 @@
 const mongoose = require('../connection.js')
 
-const Countrieschema = mongoose.Schema({
+const CountrySchema = mongoose.Schema({
   name: String,
-  pyramidPosition: Number,
-  proPossible: Boolean,
-  relPossible: Boolean,
-  numberOfClubs: Number,
   continentId: mongoose.ObjectId
 })
 
-const CountryCollection = mongoose.model('Country', Countrieschema)
+const CountryCollection = mongoose.model('Country', CountrySchema)
 
 const getAllCountries = () => {
   return CountryCollection.find({})
