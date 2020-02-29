@@ -25,7 +25,12 @@ export default {
                                             name: 'Harry Kane',
                                             position: 'Striker',
                                             skill: 89
-                                        }
+                                        },
+                                        {
+                                            name: 'Hugo Lloris',
+                                            position: 'Goalkeeper',
+                                            skill: 88
+                                        },
                                     ]
                                 },
                                 {

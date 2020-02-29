@@ -24,27 +24,43 @@ export default class SimulationArena extends Component {
     handleContinentClick = (e) => {
         const previousState = { ...this.state }
         previousState.currentContinent = this.state.continents[e.target.value]
+        previousState.currentCountry = ''
+        previousState.currentLeague = ''
+        previousState.currentClub = ''
+        previousState.currentPlayer = ''
         previousState.countries = this.state.continents[e.target.value].countries
+        previousState.leagues = []
+        previousState.clubs = []
+        previousState.players = []
         this.setState(previousState)
     }
 
     handleCountryClick = (index) => {
         const previousState = { ...this.state }
         previousState.currentCountry = this.state.currentContinent.countries[index]
+        previousState.currentLeague = ''
+        previousState.currentClub = ''
+        previousState.currentPlayer = ''
         previousState.leagues = previousState.currentCountry.leagues
+        previousState.clubs = []
+        previousState.players = []
         this.setState(previousState)
     }
 
     handleLeagueClick = (index) => {
         const previousState = { ...this.state }
         previousState.currentLeague = this.state.currentCountry.leagues[index]
+        previousState.currentClub = ''
+        previousState.currentPlayer = ''
         previousState.clubs = previousState.currentLeague.clubs
+        previousState.players = []
         this.setState(previousState)
     }
 
     handleClubClick = (index) => {
         const previousState = { ...this.state }
         previousState.currentClub = this.state.currentLeague.clubs[index]
+        previousState.currentPlayer = ''
         previousState.players = previousState.currentClub.players
         this.setState(previousState)
     }
@@ -52,6 +68,7 @@ export default class SimulationArena extends Component {
     handlePlayerClick = (index) => {
         const previousState = { ...this.state }
         previousState.currentPlayer = this.state.currentClub.players[index]
+        this.setState(previousState)
     }
 
     render() {

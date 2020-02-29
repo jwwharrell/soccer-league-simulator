@@ -9,7 +9,7 @@ export default class ClubView extends Component {
     render() {
         return (
             <div>
-                <h1>Players in {this.props.club.name}</h1>
+                <h1>{this.props.club.name} Players</h1>
                 <div className='buttonList'>
                    {this.props.club.players.map((player, index) => {
                         return(
