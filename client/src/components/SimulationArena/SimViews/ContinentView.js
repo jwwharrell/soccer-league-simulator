@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 
 export default class ContinentView extends Component {
+
+    handleCountryClick = (e) => {
+        this.props.handleCountryClick(e.target.value)
+    }
+
     render() {
         return (
             <div>
@@ -10,6 +15,8 @@ export default class ContinentView extends Component {
                         return(
                             <button 
                                 key={`country-${index + 1}`}
+                                onClick={this.handleCountryClick}
+                                value={index}
                             >
                                 {country.name}
                             </button>    
