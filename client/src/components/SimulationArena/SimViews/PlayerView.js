@@ -6,6 +6,7 @@ export default class PlayerView extends Component {
             <div>
                 <h1>{this.props.player.name}</h1>
                 <h2>{this.props.player.position}</h2>
+                <h3>Age: {this.props.player.age}</h3>
                 <h3>Skill: {this.props.player.skill}</h3>
             </div>
         )

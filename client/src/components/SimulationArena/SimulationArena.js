@@ -28,9 +28,34 @@ export default class SimulationArena extends Component {
         const previousState = { ...this.state }
         if (previousState.seasonValue < 2) {
             previousState.seasonValue += 1
+            this.setState(previousState)
+
         } else {
             previousState.season += 1
             previousState.seasonValue = 0
+            this.agePlayers(previousState)
+        }
+    }
+
+    agePlayers = (previousState) => {
+        for (let i = 0; i < previousState.continents.length; i++) {
+            if (previousState.continents[i].countries.length) {
+                for (let j = 0; j < previousState.continents[i].countries.length; j++) {
+                    if (previousState.continents[i].countries[j].leagues.length) {
+                        for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
+                            if (previousState.continents[i].countries[j].leagues[k].clubs.length) {
+                                for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].clubs.length; l++) {
+                                    if (previousState.continents[i].countries[j].leagues[k].clubs[l].players.length) {
+                                        for (let m = 0; m < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; m++) {
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[m].age += 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         this.setState(previousState)
     }
