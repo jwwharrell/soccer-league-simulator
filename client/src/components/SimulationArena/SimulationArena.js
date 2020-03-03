@@ -60,7 +60,16 @@ export default class SimulationArena extends Component {
                                     for (let m = 0; m < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; m++) {
                                         requiredPos[previousState.continents[i].countries[j].leagues[k].clubs[l].players[m].posAbr] -= 1
                                     }
-                                    console.log(requiredPos)
+                                    const posNeedingToBeFilled = Object.entries(requiredPos)
+                                    for (let n = 0; n < posNeedingToBeFilled.length; n++) {
+                                        if (posNeedingToBeFilled[n][1] === 2) {
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0]))
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0]))
+                                        }
+                                        if (posNeedingToBeFilled[n][1] === 1) {
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0]))
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -69,6 +78,28 @@ export default class SimulationArena extends Component {
             }
         }
         this.setState(previousState)
+    }
+
+    createFillerPlayer = (pos) => {
+        console.log('filler player function was hit')
+        const fullPos = {
+            'GK': 'Goalkeeper',
+            'RB': 'Right Back',
+            'CB': 'Center Back',
+            'LB': 'Left Back',
+            'RM': 'Right Midfielder',
+            'CM': 'Central Midfielder',
+            'LM': 'Left Midfielder',
+            'ST': 'Striker'
+        }
+        const newPlayer = {
+            name: 'Filler Player',
+            position: fullPos[pos],
+            posAbr: pos,
+            age: 18,
+            skill: 12
+        }
+        return newPlayer
     }
 
     agePlayers = (previousState) => {
