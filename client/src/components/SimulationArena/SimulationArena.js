@@ -26,15 +26,49 @@ export default class SimulationArena extends Component {
 
     handleAdvanceSeason = () => {
         const previousState = { ...this.state }
-        if (previousState.seasonValue < 2) {
+        if (previousState.seasonValue === 0) {
+            previousState.seasonValue += 1
+            this.checkAndAddMissingPositions(previousState)
+        } else if (previousState.seasonValue === 1) {
             previousState.seasonValue += 1
             this.setState(previousState)
-
         } else {
             previousState.season += 1
             previousState.seasonValue = 0
             this.agePlayers(previousState)
         }
+    }
+
+    checkAndAddMissingPositions = (previousState) => {
+        for (let i = 0; i < previousState.continents.length; i++) {
+            if (previousState.continents[i].countries.length) {
+                for (let j = 0; j < previousState.continents[i].countries.length; j++) {
+                    if (previousState.continents[i].countries[j].leagues.length) {
+                        for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
+                            if (previousState.continents[i].countries[j].leagues[k].clubs.length) {
+                                for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].clubs.length; l++) {
+                                    const requiredPos = {
+                                        'GK': 1,
+                                        'RB': 1,
+                                        'CB': 2,
+                                        'LB': 1,
+                                        'RM': 1,
+                                        'CM': 2,
+                                        'LM': 1,
+                                        'ST': 2
+                                    }
+                                    for (let m = 0; m < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; m++) {
+                                        requiredPos[previousState.continents[i].countries[j].leagues[k].clubs[l].players[m].posAbr] -= 1
+                                    }
+                                    console.log(requiredPos)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this.setState(previousState)
     }
 
     agePlayers = (previousState) => {
