@@ -24,12 +24,14 @@ export default {
                                         {
                                             name: 'Harry Kane',
                                             position: 'Striker',
+                                            posAbr: 'ST',
                                             age: 26,
                                             skill: 89
                                         },
                                         {
                                             name: 'Hugo Lloris',
                                             position: 'Goalkeeper',
+                                            posAbr: 'GK',
                                             age: 32,
                                             skill: 88
                                         },
@@ -41,6 +43,7 @@ export default {
                                         {
                                             name: 'Pierre-Emerick Aubameyang',
                                             position: 'Striker',
+                                            posAbr: 'ST',
                                             age: 30,
                                             skill: 88
                                         }
@@ -52,6 +55,7 @@ export default {
                                         {
                                             name: `N'Golo Kante`,
                                             position: 'Central Midfielder',
+                                            posAbr: 'CM',
                                             age: 28,
                                             skill: 89
                                         }
