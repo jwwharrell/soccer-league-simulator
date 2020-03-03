@@ -9,6 +9,9 @@ import PlayerView from './SimViews/PlayerView.js'
 
 export default class SimulationArena extends Component {
     state = {
+        season: 2019,
+        partOfSeason: ['Pre-Season', 'Season', 'Post-Season'],
+        seasonValue: 0,
         continents: SimData.continents,
         currentContinent: '',
         currentCountry: '',
@@ -19,6 +22,17 @@ export default class SimulationArena extends Component {
         leagues: [],
         clubs: [],
         players: []
+    }
+
+    handleAdvanceSeason = () => {
+        const previousState = { ...this.state }
+        if (previousState.seasonValue < 2) {
+            previousState.seasonValue += 1
+        } else {
+            previousState.season += 1
+            previousState.seasonValue = 0
+        }
+        this.setState(previousState)
     }
 
     handleContinentClick = (e) => {
@@ -72,8 +86,10 @@ export default class SimulationArena extends Component {
     }
 
     render() {
+        let seasonValue = this.state.seasonValue
         return (
             <div className='simArena'>
+                <h1>{this.state.season} {this.state.partOfSeason[seasonValue]} | <span className='advance' onClick={this.handleAdvanceSeason}>>>></span></h1>
                 <h1>World</h1>
                 <div className='buttonList'>
                     {this.state.continents.map((continent, index) => {
