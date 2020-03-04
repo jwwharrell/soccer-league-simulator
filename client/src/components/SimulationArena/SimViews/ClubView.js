@@ -3,7 +3,16 @@ import React, { Component } from 'react'
 export default class ClubView extends Component {
 
     handlePlayerClick = (e) => {
-        this.props.handlePlayerClick(e.target.value)
+        const playerName = e.target.value
+        const indexFinder = () => {
+            for (let i = 0; i < this.props.club.players.length; i++) {
+                if (this.props.club.players[i].name === playerName) {
+                    return i
+                }
+            }
+        }
+        const newIndex = indexFinder()
+        this.props.handlePlayerClick(newIndex)
     }
 
     render() {
@@ -30,7 +39,7 @@ export default class ClubView extends Component {
                                 <button
                                     key={`player-${index + 1}`}
                                     onClick={this.handlePlayerClick}
-                                    value={index}
+                                    value={player.name}
                                 >
                                     {player.name}
                                 </button>
@@ -43,7 +52,7 @@ export default class ClubView extends Component {
                                 <button
                                     key={`player-${index + 1}`}
                                     onClick={this.handlePlayerClick}
-                                    value={index}
+                                    value={player.name}
                                 >
                                     {player.name}
                                 </button>
@@ -56,7 +65,7 @@ export default class ClubView extends Component {
                                 <button
                                     key={`player-${index + 1}`}
                                     onClick={this.handlePlayerClick}
-                                    value={index}
+                                    value={player.name}
                                 >
                                     {player.name}
                                 </button>
@@ -69,7 +78,7 @@ export default class ClubView extends Component {
                                 <button
                                     key={`player-${index + 1}`}
                                     onClick={this.handlePlayerClick}
-                                    value={index}
+                                    value={player.name}
                                 >
                                     {player.name}
                                 </button>
