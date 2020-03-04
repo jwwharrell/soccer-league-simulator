@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import LeagueTable from './LeagueTable.js'
 
 export default class LeagueView extends Component {
 
@@ -10,6 +11,7 @@ export default class LeagueView extends Component {
         return (
             <div>
                 <h1>Clubs in {this.props.league.name}</h1>
+                <LeagueTable  league={this.props.league}/>
                 <div className='buttonList'>
                    {this.props.league.clubs.map((club, index) => {
                         return(
