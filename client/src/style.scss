@@ -67,3 +67,30 @@ button {
     }
   }
 }
+
+.lineup {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  justify-content: space-around;
+
+  .attack {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .midfield {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .defense {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .goalkeeper {
+    display: flex;
+    justify-content: space-evenly;
+  }
+}

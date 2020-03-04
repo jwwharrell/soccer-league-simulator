@@ -81,7 +81,6 @@ export default class SimulationArena extends Component {
     }
 
     createFillerPlayer = (pos) => {
-        console.log('filler player function was hit')
         const fullPos = {
             'GK': 'Goalkeeper',
             'RB': 'Right Back',
