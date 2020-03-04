@@ -16,16 +16,16 @@ export default class ClubView extends Component {
     }
 
     render() {
-        let attack = this.props.club.players.filter(player => {
+        const attack = this.props.club.players.filter(player => {
             return player.posAbr === 'ST'
         })
-        let midfield = this.props.club.players.filter(player => {
+        const midfield = this.props.club.players.filter(player => {
             return player.posAbr === 'LM' || player.posAbr === 'CM' || player.posAbr === 'RM'
         })
-        let defense = this.props.club.players.filter(player => {
+        const defense = this.props.club.players.filter(player => {
             return player.posAbr === 'LB' || player.posAbr === 'CB' || player.posAbr === 'RB'
         })
-        let goalkeeper = this.props.club.players.filter(player => {
+        const goalkeeper = this.props.club.players.filter(player => {
             return player.posAbr === 'GK'
         })
         return (

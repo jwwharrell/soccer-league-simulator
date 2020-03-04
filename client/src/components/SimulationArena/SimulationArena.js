@@ -5,6 +5,8 @@ import CountryView from './SimViews/CountryView.js'
 import LeagueView from './SimViews/LeagueView.js'
 import ClubView from './SimViews/ClubView.js'
 import PlayerView from './SimViews/PlayerView.js'
+import axios from 'axios'
+
 
 
 export default class SimulationArena extends Component {
@@ -21,14 +23,15 @@ export default class SimulationArena extends Component {
         countries: [],
         leagues: [],
         clubs: [],
-        players: []
+        players: [],
+        randomNames: []
     }
 
     handleAdvanceSeason = () => {
         const previousState = { ...this.state }
         if (previousState.seasonValue === 0) {
             previousState.seasonValue += 1
-            this.checkAndAddMissingPositions(previousState)
+            this.getName(previousState)
         } else if (previousState.seasonValue === 1) {
             previousState.seasonValue += 1
             this.setState(previousState)
@@ -37,6 +40,12 @@ export default class SimulationArena extends Component {
             previousState.seasonValue = 0
             this.agePlayers(previousState)
         }
+    }
+
+    getName = async (previousState) => {
+        let res = await axios.get('https://randomuser.me/api/?results=100&nat=dk,fr,gb&gender=male&inc=name&noinfo')
+        previousState.randomNames = res.data.results
+        this.checkAndAddMissingPositions(previousState)
     }
 
     checkAndAddMissingPositions = (previousState) => {
@@ -49,12 +58,12 @@ export default class SimulationArena extends Component {
                                 for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].clubs.length; l++) {
                                     const requiredPos = {
                                         'GK': 1,
-                                        'RB': 1,
-                                        'CB': 2,
                                         'LB': 1,
-                                        'RM': 1,
-                                        'CM': 2,
+                                        'CB': 2,
+                                        'RB': 1,
                                         'LM': 1,
+                                        'CM': 2,
+                                        'RM': 1,
                                         'ST': 2
                                     }
                                     for (let m = 0; m < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; m++) {
@@ -63,11 +72,11 @@ export default class SimulationArena extends Component {
                                     const posNeedingToBeFilled = Object.entries(requiredPos)
                                     for (let n = 0; n < posNeedingToBeFilled.length; n++) {
                                         if (posNeedingToBeFilled[n][1] === 2) {
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0]))
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0]))
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
                                         }
                                         if (posNeedingToBeFilled[n][1] === 1) {
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0]))
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
                                         }
                                     }
                                 }
@@ -80,19 +89,20 @@ export default class SimulationArena extends Component {
         this.setState(previousState)
     }
 
-    createFillerPlayer = (pos) => {
+    createFillerPlayer = (pos, name) => {
+        const fullName = name.name.first + ' ' + name.name.last
         const fullPos = {
             'GK': 'Goalkeeper',
-            'RB': 'Right Back',
-            'CB': 'Center Back',
             'LB': 'Left Back',
-            'RM': 'Right Midfielder',
-            'CM': 'Central Midfielder',
+            'CB': 'Center Back',
+            'RB': 'Right Back',
             'LM': 'Left Midfielder',
+            'CM': 'Central Midfielder',
+            'RM': 'Right Midfielder',
             'ST': 'Striker'
         }
         const newPlayer = {
-            name: 'Filler Player',
+            name: fullName,
             position: fullPos[pos],
             posAbr: pos,
             age: 18,
