@@ -36,7 +36,7 @@ export default class SimulationArena extends Component {
             this.createSeasonSchedule(previousState)
         } else if (previousState.seasonValue === 1) {
             previousState.seasonValue += 1
-            this.setState(previousState)
+            this.simulateMatches(previousState)
         } else {
             previousState.season.year += 1
             previousState.seasonValue = 0
@@ -65,9 +65,9 @@ export default class SimulationArena extends Component {
                             for (let i = 0; i < allClubs.length; i++) {
                                 for (let j = 0; j < allClubs.length; j++) {
                                     if (allClubs[i].name !== allClubs[j].name) {
-                                        schedule.push({ home: allClubs[i], away: allClubs[j], match: match, score: {home: '', away: ''} })
+                                        schedule.push({ home: allClubs[i], away: allClubs[j], match: match, score: { home: '', away: '' } })
                                         match++
-                                    } 
+                                    }
                                 }
                             }
                             for (let k = 0; k < leagueTable.length; k++) {
@@ -147,6 +147,49 @@ export default class SimulationArena extends Component {
             skill: 12
         }
         return newPlayer
+    }
+
+    getRandomInt = (max) => {
+        return Math.floor(Math.random() * Math.floor(max))
+    }
+
+    simulateMatches = (previousState) => {
+        for (let i = 0; i < previousState.continents.length; i++) {
+            if (previousState.continents[i].countries.length) {
+                for (let j = 0; j < previousState.continents[i].countries.length; j++) {
+                    if (previousState.continents[i].countries[j].leagues.length) {
+                        for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
+                            if (previousState.continents[i].countries[j].leagues[k].schedule.length) {
+                                for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].schedule.length; l++) {
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].score.away = this.getRandomInt(5)
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].score.home = this.getRandomInt(6)
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalsFor += previousState.continents[i].countries[j].leagues[k].schedule[l].score.home
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalsAgainst += previousState.continents[i].countries[j].leagues[k].schedule[l].score.away
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsFor += previousState.continents[i].countries[j].leagues[k].schedule[l].score.away
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsAgainst += previousState.continents[i].countries[j].leagues[k].schedule[l].score.home
+                                    if (previousState.continents[i].countries[j].leagues[k].schedule[l].score.home === previousState.continents[i].countries[j].leagues[k].schedule[l].score.away) {
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.draws ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.points ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.draws ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.points ++
+                                    } else if (previousState.continents[i].countries[j].leagues[k].schedule[l].score.home > previousState.continents[i].countries[j].leagues[k].schedule[l].score.away) {
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.wins ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.points += 3
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.losses ++
+                                    } else {
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.wins ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.points += 3
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.losses ++
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        this.setState(previousState)
     }
 
     agePlayers = (previousState) => {
