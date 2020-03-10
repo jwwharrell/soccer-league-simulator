@@ -15,24 +15,23 @@ export default class Schedule extends Component {
         let schedule = []
         let week = 1
         let leagueTable = allClubs
-        allClubs.map((club) => {
-            allClubs.forEach((clubTwo) => {
-                if (club._id !== clubTwo._id) {
-                    schedule.push({ home: club, away: clubTwo, week: week, score: {home: '', away: ''} })
+        for (let i = 0; i < allClubs.length; i++) {
+            for (let j = 0; j < allClubs.length; j++) {
+                if (allClubs[i]._id !== allClubs[j]._id) {
+                    schedule.push({ home: allClubs[i], away: allClubs[j], week: week, score: {home: '', away: ''} })
                     week++
-                }
-            })
-        })
-        leagueTable.map((club) => {
-            club.points = 0
-            club.wins = 0
-            club.draws = 0
-            club.losses = 0
-            club.goalsFor = 0
-            club.goalsAgainst = 0
-        })
+                } 
+            }
+        }
+        for (let k = 0; k < leagueTable.length; k++) {
+            leagueTable[k].points = 0
+            leagueTable[k].wins = 0
+            leagueTable[k].draws = 0
+            leagueTable[k].losses = 0
+            leagueTable[k].goalsFor = 0
+            leagueTable[k].goalsAgainst = 0
+        }
         this.setState({ schedule, leagueTable })
-
     }
 
     getRandomInt = (max) => {
@@ -41,29 +40,28 @@ export default class Schedule extends Component {
 
     handleNewSeason = () => {
         const previousState = {...this.state}
-        previousState.schedule.map((week) => {
-            week.score.away = this.getRandomInt(5)
-            week.score.home = this.getRandomInt(6)
-            week.home.goalsFor += week.score.home
-            week.home.goalsAgainst += week.score.away
-            week.away.goalsFor += week.score.away
-            week.away.goalsAgainst += week.score.home
-            if (week.score.home === week.score.away) {
-                week.home.draws ++
-                week.home.points ++
-                week.away.draws ++
-                week.away.points ++
-            } else if (week.score.home > week.score.away) {
-                week.home.wins ++
-                week.home.points += 3
-                week.away.losses ++
+        for (let i = 0; i < previousState.schedule.length; i++) {
+            previousState.schedule[i].score.away = this.getRandomInt(5)
+            previousState.schedule[i].score.home = this.getRandomInt(6)
+            previousState.schedule[i].home.goalsFor += previousState.schedule[i].score.home
+            previousState.schedule[i].home.goalsAgainst += previousState.schedule[i].score.away
+            previousState.schedule[i].away.goalsFor += previousState.schedule[i].score.away
+            previousState.schedule[i].away.goalsAgainst += previousState.schedule[i].score.home
+            if (previousState.schedule[i].score.home === previousState.schedule[i].score.away) {
+                previousState.schedule[i].home.draws ++
+                previousState.schedule[i].home.points ++
+                previousState.schedule[i].away.draws ++
+                previousState.schedule[i].away.points ++
+            } else if (previousState.schedule[i].score.home > previousState.schedule[i].score.away) {
+                previousState.schedule[i].home.wins ++
+                previousState.schedule[i].home.points += 3
+                previousState.schedule[i].away.losses ++
             } else {
-                week.away.wins ++
-                week.away.points += 3
-                week.home.losses ++
+                previousState.schedule[i].away.wins ++
+                previousState.schedule[i].away.points += 3
+                previousState.schedule[i].home.losses ++
             }
-        })
-
+        }
         this.setState(previousState)
     }
 

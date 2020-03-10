@@ -11,7 +11,11 @@ import axios from 'axios'
 
 export default class SimulationArena extends Component {
     state = {
-        season: 2019,
+        season: {
+            year: 2019,
+            schedule: [],
+            leagueTable: []
+        },
         partOfSeason: ['Pre-Season', 'Season', 'Post-Season'],
         seasonValue: 0,
         continents: SimData.continents,
@@ -36,7 +40,7 @@ export default class SimulationArena extends Component {
             previousState.seasonValue += 1
             this.setState(previousState)
         } else {
-            previousState.season += 1
+            previousState.season.year += 1
             previousState.seasonValue = 0
             this.agePlayers(previousState)
         }
@@ -188,7 +192,7 @@ export default class SimulationArena extends Component {
         let seasonValue = this.state.seasonValue
         return (
             <div className='simArena'>
-                <h1>{this.state.season} {this.state.partOfSeason[seasonValue]} | <span className='advance' onClick={this.handleAdvanceSeason}>>>></span></h1>
+                <h1>{this.state.season.year} {this.state.partOfSeason[seasonValue]} | <span className='advance' onClick={this.handleAdvanceSeason}>>>></span></h1>
                 <h1>World</h1>
                 <div className='buttonList'>
                     {this.state.continents.map((continent, index) => {

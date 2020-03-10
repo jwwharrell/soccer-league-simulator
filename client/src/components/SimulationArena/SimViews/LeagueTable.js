@@ -12,13 +12,14 @@ export default class LeagueTable extends Component {
         let allClubs = this.props.league.clubs
         let schedule = []
         let leagueTable = allClubs
-        allClubs.map((club) => {
-            allClubs.forEach((clubTwo) => {
-                if (club.name !== clubTwo.name) {
-                    schedule.push({ home: club, away: clubTwo, score: { home: '', away: '' } })
+        for (let i = 0; i < allClubs.length; i++) {
+            for (let j = 0; j < allClubs.length; j++) {
+                if (allClubs[i] !== allClubs[j]) {
+                    schedule.push({ home: allClubs[i], away: allClubs[j], score: { home: '', away: '' } })  
                 }
-            })
-        })
+            }
+        }
+        
         leagueTable.map((club) => {
             club.points = 0
             club.wins = 0
