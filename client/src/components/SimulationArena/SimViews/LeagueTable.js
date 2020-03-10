@@ -2,36 +2,6 @@ import React, { Component } from 'react'
 import DataTable from 'react-data-table-component'
 
 export default class LeagueTable extends Component {
-    state = {
-        schedule: [],
-        leagueTable: [],
-
-    }
-
-    componentDidMount() {
-        let allClubs = this.props.league.clubs
-        let schedule = []
-        let leagueTable = allClubs
-        for (let i = 0; i < allClubs.length; i++) {
-            for (let j = 0; j < allClubs.length; j++) {
-                if (allClubs[i] !== allClubs[j]) {
-                    schedule.push({ home: allClubs[i], away: allClubs[j], score: { home: '', away: '' } })  
-                }
-            }
-        }
-        
-        leagueTable.map((club) => {
-            club.points = 0
-            club.wins = 0
-            club.draws = 0
-            club.losses = 0
-            club.goalsFor = 0
-            club.goalsAgainst = 0
-        })
-        this.setState({ schedule, leagueTable })
-
-    }
-
     getRandomInt = (max) => {
         return Math.floor(Math.random() * Math.floor(max))
     }
@@ -65,7 +35,7 @@ export default class LeagueTable extends Component {
     }
 
     render() {
-        const data = this.state.leagueTable
+        const data = this.props.league.clubs
         const columns = [
             {
                 name: 'Club',
