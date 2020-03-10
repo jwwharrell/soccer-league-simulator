@@ -12,9 +12,7 @@ import axios from 'axios'
 export default class SimulationArena extends Component {
     state = {
         season: {
-            year: 2019,
-            schedule: [],
-            leagueTable: []
+            year: 2019
         },
         partOfSeason: ['Pre-Season', 'Season', 'Post-Season'],
         seasonValue: 0,
@@ -35,7 +33,7 @@ export default class SimulationArena extends Component {
         const previousState = { ...this.state }
         if (previousState.seasonValue === 0) {
             previousState.seasonValue += 1
-            this.getName(previousState)
+            this.createSeasonSchedule(previousState)
         } else if (previousState.seasonValue === 1) {
             previousState.seasonValue += 1
             this.setState(previousState)
@@ -50,6 +48,42 @@ export default class SimulationArena extends Component {
         let res = await axios.get('https://randomuser.me/api/?results=100&nat=dk,fr,gb&gender=male&inc=name&noinfo')
         previousState.randomNames = res.data.results
         this.checkAndAddMissingPositions(previousState)
+    }
+
+    createSeasonSchedule = (previousState) => {
+        for (let i = 0; i < previousState.continents.length; i++) {
+            if (previousState.continents[i].countries.length) {
+                for (let j = 0; j < previousState.continents[i].countries.length; j++) {
+                    if (previousState.continents[i].countries[j].leagues.length) {
+                        for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
+                            let league = previousState.continents[i].countries[j].leagues[k]
+                            previousState.continents[i].countries[j].leagues[k].schedule = []
+                            let schedule = previousState.continents[i].countries[j].leagues[k].schedule
+                            let allClubs = league.clubs
+                            let match = 1
+                            let leagueTable = allClubs
+                            for (let i = 0; i < allClubs.length; i++) {
+                                for (let j = 0; j < allClubs.length; j++) {
+                                    if (allClubs[i].name !== allClubs[j].name) {
+                                        schedule.push({ home: allClubs[i], away: allClubs[j], match: match, score: {home: '', away: ''} })
+                                        match++
+                                    } 
+                                }
+                            }
+                            for (let k = 0; k < leagueTable.length; k++) {
+                                leagueTable[k].points = 0
+                                leagueTable[k].wins = 0
+                                leagueTable[k].draws = 0
+                                leagueTable[k].losses = 0
+                                leagueTable[k].goalsFor = 0
+                                leagueTable[k].goalsAgainst = 0
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this.getName(previousState)
     }
 
     checkAndAddMissingPositions = (previousState) => {
