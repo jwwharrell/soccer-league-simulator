@@ -35,7 +35,8 @@ export default {
                                             age: 32,
                                             skill: 88
                                         },
-                                    ]
+                                    ],
+                                    squadSkill: 0
                                 },
                                 {
                                     name: 'Arsenal',
@@ -47,7 +48,8 @@ export default {
                                             age: 30,
                                             skill: 88
                                         }
-                                    ]
+                                    ],
+                                    squadSkill: 0
                                 },
                                 {
                                     name: 'Chelsea',
@@ -59,7 +61,8 @@ export default {
                                             age: 28,
                                             skill: 89
                                         }
-                                    ]
+                                    ],
+                                    squadSkill: 0
                                 },
                             ]
                         }

@@ -32,6 +32,7 @@ export default class ClubView extends Component {
             <div>
                 <h1>{this.props.club.name} Players</h1>
                 <h2>Lineup</h2>
+                <h3>Squad Skill: {this.props.club.squadSkill}</h3>
                 <div className='lineup'>
                     <div className='attack'>
                         {attack.map((player, index) => {

@@ -117,6 +117,12 @@ export default class SimulationArena extends Component {
                                             previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
                                         }
                                     }
+                                    
+                                    let sumSquadSkill = 0
+                                    for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
+                                        sumSquadSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
+                                    }
+                                    previousState.continents[i].countries[j].leagues[k].clubs[l].squadSkill = Math.floor(sumSquadSkill / 11)
                                 }
                             }
                         }
@@ -168,18 +174,18 @@ export default class SimulationArena extends Component {
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsFor += previousState.continents[i].countries[j].leagues[k].schedule[l].score.away
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsAgainst += previousState.continents[i].countries[j].leagues[k].schedule[l].score.home
                                     if (previousState.continents[i].countries[j].leagues[k].schedule[l].score.home === previousState.continents[i].countries[j].leagues[k].schedule[l].score.away) {
-                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.draws ++
-                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.points ++
-                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.draws ++
-                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.points ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.draws++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.points++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.draws++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.points++
                                     } else if (previousState.continents[i].countries[j].leagues[k].schedule[l].score.home > previousState.continents[i].countries[j].leagues[k].schedule[l].score.away) {
-                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.wins ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.wins++
                                         previousState.continents[i].countries[j].leagues[k].schedule[l].home.points += 3
-                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.losses ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.losses++
                                     } else {
-                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.wins ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].away.wins++
                                         previousState.continents[i].countries[j].leagues[k].schedule[l].away.points += 3
-                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.losses ++
+                                        previousState.continents[i].countries[j].leagues[k].schedule[l].home.losses++
                                     }
                                 }
                             }
