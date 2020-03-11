@@ -118,11 +118,37 @@ export default class SimulationArena extends Component {
                                         }
                                     }
                                     
-                                    let sumSquadSkill = 0
+                                    let ovrSquadSkill = 0
+                                    let squadAttackingSkill = 0
+                                    let squadDefendingSkill = 0
+                                    let centerMidSkill = 0
                                     for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
-                                        sumSquadSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
+                                        if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'CM') {
+                                            centerMidSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
+                                        }
                                     }
-                                    previousState.continents[i].countries[j].leagues[k].clubs[l].squadSkill = Math.floor(sumSquadSkill / 11)
+                                    centerMidSkill = Math.floor(centerMidSkill / 2)
+                                    for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
+                                        if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'ST' ||
+                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'LM' ||
+                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'RM') {
+                                            squadAttackingSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
+                                        }
+                                    }
+                                    squadAttackingSkill = Math.floor((squadAttackingSkill + centerMidSkill) / 5)
+                                    for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
+                                        if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'CD' ||
+                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'LB' ||
+                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'RB' ||
+                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'GK') {
+                                            squadDefendingSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
+                                        }
+                                    }
+                                    squadDefendingSkill = Math.floor((squadDefendingSkill + centerMidSkill) / 6)
+                                    ovrSquadSkill = Math.floor((squadAttackingSkill + squadDefendingSkill) / 2)
+                                    previousState.continents[i].countries[j].leagues[k].clubs[l].squadOverallSkill = ovrSquadSkill
+                                    previousState.continents[i].countries[j].leagues[k].clubs[l].squadAttackingSkill = squadAttackingSkill
+                                    previousState.continents[i].countries[j].leagues[k].clubs[l].squadDefendingSkill = squadDefendingSkill
                                 }
                             }
                         }
