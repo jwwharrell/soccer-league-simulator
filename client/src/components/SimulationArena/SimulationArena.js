@@ -221,6 +221,8 @@ export default class SimulationArena extends Component {
         if (ratingGap < -50) {
             possibleGoals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
         }
+
+        return possibleGoals[this.getRandomInt(possibleGoals.length - 1)]
     }
 
 
@@ -233,8 +235,8 @@ export default class SimulationArena extends Component {
                         for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
                             if (previousState.continents[i].countries[j].leagues[k].schedule.length) {
                                 for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].schedule.length; l++) {
-                                    previousState.continents[i].countries[j].leagues[k].schedule[l].score.away = this.getRandomInt(5)
-                                    previousState.continents[i].countries[j].leagues[k].schedule[l].score.home = this.getRandomInt(6)
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].score.away = this.calculateGoals(previousState.continents[i].countries[j].leagues[k].schedule[l].away.squadAttackingSkill, previousState.continents[i].countries[j].leagues[k].schedule[l].home.squadDefendingSkill)
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].score.home = this.calculateGoals(previousState.continents[i].countries[j].leagues[k].schedule[l].home.squadAttackingSkill, previousState.continents[i].countries[j].leagues[k].schedule[l].away.squadDefendingSkill)
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalsFor += previousState.continents[i].countries[j].leagues[k].schedule[l].score.home
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalsAgainst += previousState.continents[i].countries[j].leagues[k].schedule[l].score.away
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsFor += previousState.continents[i].countries[j].leagues[k].schedule[l].score.away
