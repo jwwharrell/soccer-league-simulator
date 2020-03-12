@@ -36,7 +36,6 @@ export default {
                                             skill: 88
                                         },
                                     ],
-                                    squadSkill: 0
                                 },
                                 {
                                     name: 'Arsenal',
@@ -49,7 +48,6 @@ export default {
                                             skill: 88
                                         }
                                     ],
-                                    squadSkill: 0
                                 },
                                 {
                                     name: 'Chelsea',
@@ -62,7 +60,24 @@ export default {
                                             skill: 89
                                         }
                                     ],
-                                    squadSkill: 0
+                                },
+                            ]
+                        },
+                        {
+                            name: 'EFL Championship',
+                            pyramidPos: 2,
+                            clubs: [
+                                {
+                                    name: 'Leeds United',
+                                    players: [],
+                                },
+                                {
+                                    name: 'Reading',
+                                    players: [],
+                                },
+                                {
+                                    name: 'Stoke City',
+                                    players: [],
                                 },
                             ]
                         }
