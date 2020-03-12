@@ -256,24 +256,35 @@ export default class SimulationArena extends Component {
                                 }
                             }
                             let promotionPoints = 0
-                            let relegationPoints = 0
+                            let relegationPoints = 200
                             let promotedClub
-                            let promotedClubGoalsFor = 0
+                            let promotedClubGoalDiff = 0
                             let relegatedClub
-                            let relegatedClubGoalsFor = 0
+                            let relegatedClubGoalDiff = 0
                             for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].clubs.length; l++) {
                                 if (previousState.continents[i].countries[j].leagues[k].clubs[l].points > promotionPoints) {
                                     promotedClub = previousState.continents[i].countries[j].leagues[k].clubs[l]
                                     promotionPoints = previousState.continents[i].countries[j].leagues[k].clubs[l].points
-                                    promotedClubGoalsFor = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
+                                    promotedClubGoalDiff = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
                                 } else if (previousState.continents[i].countries[j].leagues[k].clubs[l].points === promotionPoints &&
-                                    previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor > promotedClubGoalsFor) {
+                                    previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor > promotedClubGoalDiff) {
                                     promotedClub = previousState.continents[i].countries[j].leagues[k].clubs[l]
                                     promotionPoints = previousState.continents[i].countries[j].leagues[k].clubs[l].points
-                                    promotedClubGoalsFor = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
+                                    promotedClubGoalDiff = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
+                                }
+                                if (previousState.continents[i].countries[j].leagues[k].clubs[l].points < relegationPoints) {
+                                    relegatedClub = previousState.continents[i].countries[j].leagues[k].clubs[l]
+                                    relegationPoints = previousState.continents[i].countries[j].leagues[k].clubs[l].points
+                                    relegatedClubGoalDiff = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
+                                } else if (previousState.continents[i].countries[j].leagues[k].clubs[l].points === relegationPoints &&
+                                    previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor < relegatedClubGoalDiff) {
+                                    relegatedClub = previousState.continents[i].countries[j].leagues[k].clubs[l]
+                                    relegationPoints = previousState.continents[i].countries[j].leagues[k].clubs[l].points
+                                    relegatedClubGoalDiff = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
                                 }
                             }
                             console.log(promotedClub)
+                            console.log(relegatedClub)
                         }
                     }
                 }
