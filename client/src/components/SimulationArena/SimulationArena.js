@@ -117,7 +117,7 @@ export default class SimulationArena extends Component {
                                             previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
                                         }
                                     }
-                                    
+
                                     let ovrSquadSkill = 0
                                     let squadAttackingSkill = 0
                                     let squadDefendingSkill = 0
@@ -130,17 +130,17 @@ export default class SimulationArena extends Component {
                                     centerMidSkill = Math.floor(centerMidSkill / 2)
                                     for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
                                         if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'ST' ||
-                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'LM' ||
-                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'RM') {
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'LM' ||
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'RM') {
                                             squadAttackingSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
                                         }
                                     }
                                     squadAttackingSkill = Math.floor((squadAttackingSkill + centerMidSkill) / 5)
                                     for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
-                                        if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'CD' ||
-                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'LB' ||
-                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'RB' ||
-                                        previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'GK') {
+                                        if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'CB' ||
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'LB' ||
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'RB' ||
+                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'GK') {
                                             squadDefendingSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
                                         }
                                     }
@@ -225,8 +225,6 @@ export default class SimulationArena extends Component {
         return possibleGoals[this.getRandomInt(possibleGoals.length - 1)]
     }
 
-
-
     simulateMatches = (previousState) => {
         for (let i = 0; i < previousState.continents.length; i++) {
             if (previousState.continents[i].countries.length) {
@@ -257,6 +255,25 @@ export default class SimulationArena extends Component {
                                     }
                                 }
                             }
+                            let promotionPoints = 0
+                            let relegationPoints = 0
+                            let promotedClub
+                            let promotedClubGoalsFor = 0
+                            let relegatedClub
+                            let relegatedClubGoalsFor = 0
+                            for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].clubs.length; l++) {
+                                if (previousState.continents[i].countries[j].leagues[k].clubs[l].points > promotionPoints) {
+                                    promotedClub = previousState.continents[i].countries[j].leagues[k].clubs[l]
+                                    promotionPoints = previousState.continents[i].countries[j].leagues[k].clubs[l].points
+                                    promotedClubGoalsFor = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
+                                } else if (previousState.continents[i].countries[j].leagues[k].clubs[l].points === promotionPoints &&
+                                    previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor > promotedClubGoalsFor) {
+                                    promotedClub = previousState.continents[i].countries[j].leagues[k].clubs[l]
+                                    promotionPoints = previousState.continents[i].countries[j].leagues[k].clubs[l].points
+                                    promotedClubGoalsFor = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
+                                }
+                            }
+                            console.log(promotedClub)
                         }
                     }
                 }
@@ -264,6 +281,14 @@ export default class SimulationArena extends Component {
         }
 
         this.setState(previousState)
+    }
+
+    findAndSetLeagueFirstAndLastPlace = (previousState) => {
+
+    }
+
+    promoteAndRelegateClubs = (previousState) => {
+        console.log(previousState)
     }
 
     agePlayers = (previousState) => {

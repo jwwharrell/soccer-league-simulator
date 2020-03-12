@@ -29,6 +29,20 @@ export default {
                                             skill: 89
                                         },
                                         {
+                                            name: 'Dele Alli',
+                                            position: 'Left Midfielder',
+                                            posAbr: 'LM',
+                                            age: 23,
+                                            skill: 84
+                                        },
+                                        {
+                                            name: 'Harry Winks',
+                                            position: 'Central Midfielder',
+                                            posAbr: 'CM',
+                                            age: 23,
+                                            skill: 80
+                                        },
+                                        {
                                             name: 'Hugo Lloris',
                                             position: 'Goalkeeper',
                                             posAbr: 'GK',
