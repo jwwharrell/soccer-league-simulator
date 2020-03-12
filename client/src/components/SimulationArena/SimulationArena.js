@@ -77,6 +77,7 @@ export default class SimulationArena extends Component {
                                 leagueTable[k].losses = 0
                                 leagueTable[k].goalsFor = 0
                                 leagueTable[k].goalsAgainst = 0
+                                leagueTable[k].goalDifferential = 0
                             }
                         }
                     }
@@ -298,15 +299,16 @@ export default class SimulationArena extends Component {
                                     relegatedClubGoalsFor = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
                                 } else if (previousState.continents[i].countries[j].leagues[k].clubs[l].points === relegationPoints &&
                                     previousState.continents[i].countries[j].leagues[k].clubs[l].goalDifferential === relegatedClubGoalDiff &&
-                                    previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor < relegatedClubGoalDiff) {
+                                    previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor < relegatedClubGoalsFor) {
                                     relegatedClub = previousState.continents[i].countries[j].leagues[k].clubs[l]
                                     relegationPoints = previousState.continents[i].countries[j].leagues[k].clubs[l].points
                                     relegatedClubGoalDiff = previousState.continents[i].countries[j].leagues[k].clubs[l].goalDifferential
                                     relegatedClubGoalsFor = previousState.continents[i].countries[j].leagues[k].clubs[l].goalsFor
                                 }
                             }
-                            console.log(promotedClub)
-                            console.log(relegatedClub)
+
+                            previousState.continents[i].countries[j].leagues[k].promotedClub = promotedClub
+                            previousState.continents[i].countries[j].leagues[k].relegatedClub = relegatedClub
                         }
                     }
                 }
@@ -316,12 +318,39 @@ export default class SimulationArena extends Component {
         this.setState(previousState)
     }
 
-    findAndSetLeagueFirstAndLastPlace = (previousState) => {
-
-    }
-
     promoteAndRelegateClubs = (previousState) => {
-        console.log(previousState)
+        for (let i = 0; i < previousState.continents.length; i++) {
+            if (previousState.continents[i].countries.length) {
+                for (let j = 0; j < previousState.continents[i].countries.length; j++) {
+                    if (previousState.continents[i].countries[j].leagues.length) {
+                        for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
+                            let league = previousState.continents[i].countries[j].leagues[k]
+                            console.log(league.name)
+                            if (league.proPos) {
+                                for (let l = 0; l < league.clubs.length; l++) {
+                                    if (league.clubs[l] === league.promotedClub) {
+                                        league.clubs.splice(l, 1)
+                                        let promotedClub = league.promotedClub
+                                        previousState.continents[i].countries[j].leagues[k - 1].clubs.push(promotedClub)
+                                        console.log(promotedClub.name + ' has been promoted from ' + league.name)
+                                    }
+                                }
+                            }
+                            if (league.relPos) {
+                                for (let l = 0; l < league.clubs.length; l++) {
+                                    if (league.clubs[l] === league.relegatedClub) {
+                                        league.clubs.splice(l, 1)
+                                        let relegatedClub = league.relegatedClub
+                                        previousState.continents[i].countries[j].leagues[k + 1].clubs.push(relegatedClub)
+                                        console.log(relegatedClub.name + ' has been relegated from ' + league.name)
+                                    }
+                                } 
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     agePlayers = (previousState) => {
@@ -344,6 +373,7 @@ export default class SimulationArena extends Component {
                 }
             }
         }
+        this.promoteAndRelegateClubs(previousState)
         this.setState(previousState)
     }
 

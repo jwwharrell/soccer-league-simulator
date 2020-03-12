@@ -17,6 +17,8 @@ export default {
                         {
                             name: 'Premier League',
                             pyramidPos: 1,
+                            proPos: false,
+                            relPos: true,
                             clubs: [
                                 {
                                     name: 'Tottenham Hotspur',
@@ -80,6 +82,8 @@ export default {
                         {
                             name: 'EFL Championship',
                             pyramidPos: 2,
+                            proPos: true,
+                            relPos: false,
                             clubs: [
                                 {
                                     name: 'Leeds United',
