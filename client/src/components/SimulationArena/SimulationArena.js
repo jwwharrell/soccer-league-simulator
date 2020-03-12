@@ -185,6 +185,46 @@ export default class SimulationArena extends Component {
         return Math.floor(Math.random() * Math.floor(max))
     }
 
+    calculateGoals = (teamOffRating, oppTeamDefRating) => {
+        let ratingGap = teamOffRating - oppTeamDefRating
+        let possibleGoals = []
+        if (ratingGap > 50) {
+            possibleGoals = [0, 1, 2, 2, 3, 3, 3, 4, 4, 5, 6, 7, 8, 9, 10]
+        }
+        if (ratingGap >= 40 && ratingGap < 50) {
+            possibleGoals = [0, 0, 1, 1, 2, 2, 3, 4, 5, 6]
+        }
+        if (ratingGap >= 30 && ratingGap < 40) {
+            possibleGoals = [0, 0, 1, 1, 2, 2, 3, 3, 4, 5]
+        }
+        if (ratingGap >= 20 && ratingGap < 30) {
+            possibleGoals = [0, 0, 0, 1, 1, 2, 2, 3, 4, 5]
+        }
+        if (ratingGap >= 10 && ratingGap < 20) {
+            possibleGoals = [0, 0, 0, 0, 1, 1, 2, 2, 3, 4]
+        }
+        if (ratingGap > -10 && ratingGap < 10) {
+            possibleGoals = [0, 0, 0, 0, 0, 1, 1, 2, 2, 3]
+        }
+        if (ratingGap > -20 && ratingGap <= -10) {
+            possibleGoals = [0, 0, 0, 0, 0, 0, 1, 1, 2, 3]
+        }
+        if (ratingGap > -30 && ratingGap <= -20) {
+            possibleGoals = [0, 0, 0, 0, 0, 0, 0, 1, 2, 3]
+        }
+        if (ratingGap > -40 && ratingGap <= -30) {
+            possibleGoals = [0, 0, 0, 0, 0, 0, 0, 0, 1, 2]
+        }
+        if (ratingGap > -50 && ratingGap <= -40) {
+            possibleGoals = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+        }
+        if (ratingGap < -50) {
+            possibleGoals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        }
+    }
+
+
+
     simulateMatches = (previousState) => {
         for (let i = 0; i < previousState.continents.length; i++) {
             if (previousState.continents[i].countries.length) {
