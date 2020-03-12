@@ -32,6 +32,11 @@ export default class LeagueTable extends Component {
                 sortable: true
             },
             {
+                name: 'GD',
+                selector: 'goalDifferential',
+                sortable: true
+            },
+            {
                 name: 'GF',
                 selector: 'goalsFor',
                 sortable: true

@@ -237,8 +237,10 @@ export default class SimulationArena extends Component {
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].score.home = this.calculateGoals(previousState.continents[i].countries[j].leagues[k].schedule[l].home.squadAttackingSkill, previousState.continents[i].countries[j].leagues[k].schedule[l].away.squadDefendingSkill)
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalsFor += previousState.continents[i].countries[j].leagues[k].schedule[l].score.home
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalsAgainst += previousState.continents[i].countries[j].leagues[k].schedule[l].score.away
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalDifferential = (previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalsFor - previousState.continents[i].countries[j].leagues[k].schedule[l].home.goalsAgainst)
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsFor += previousState.continents[i].countries[j].leagues[k].schedule[l].score.away
                                     previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsAgainst += previousState.continents[i].countries[j].leagues[k].schedule[l].score.home
+                                    previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalDifferential = (previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsFor - previousState.continents[i].countries[j].leagues[k].schedule[l].away.goalsAgainst)
                                     if (previousState.continents[i].countries[j].leagues[k].schedule[l].score.home === previousState.continents[i].countries[j].leagues[k].schedule[l].score.away) {
                                         previousState.continents[i].countries[j].leagues[k].schedule[l].home.draws++
                                         previousState.continents[i].countries[j].leagues[k].schedule[l].home.points++
