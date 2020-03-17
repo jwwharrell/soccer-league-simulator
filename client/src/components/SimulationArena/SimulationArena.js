@@ -45,8 +45,12 @@ export default class SimulationArena extends Component {
     }
 
     getName = async (previousState) => {
-        let res = await axios.get('https://randomuser.me/api/?results=100&nat=dk,fr,gb&gender=male&inc=name&noinfo')
-        previousState.randomNames = res.data.results
+        try {
+            let res = await axios.get('https://randomuser.me/api/?results=100&nat=dk,fr,gb&gender=male&inc=name&noinfo')
+            previousState.randomNames = res.data.results
+        } catch (e) {
+            console.error(e)
+        }
         this.checkAndAddMissingPositions(previousState)
     }
 
