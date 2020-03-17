@@ -48,10 +48,23 @@ export default class SimulationArena extends Component {
         try {
             let res = await axios.get('https://randomuser.me/api/?results=100&nat=dk,fr,gb&gender=male&inc=name&noinfo')
             previousState.randomNames = res.data.results
+            console.log('API is working correctly')
         } catch (e) {
-            console.error(e)
+            let randomName = []
+            for (let i = 0; i < 100; i++) {
+                let nameItem = {
+                    name: {
+                        first: 'John',
+                        last: `Doe ${i + 1}`
+                    }
+                }
+                randomName.push(nameItem)
+            }
+            previousState.randomNames = randomName
+            console.log('API failed, John Doe is the default name.')
+        } finally {
+            this.checkAndAddMissingPositions(previousState)
         }
-        this.checkAndAddMissingPositions(previousState)
     }
 
     createSeasonSchedule = (previousState) => {
@@ -165,6 +178,7 @@ export default class SimulationArena extends Component {
     }
 
     createFillerPlayer = (pos, name) => {
+        console.log(name.name.first)
         const fullName = name.name.first + ' ' + name.name.last
         const fullPos = {
             'GK': 'Goalkeeper',
@@ -348,7 +362,7 @@ export default class SimulationArena extends Component {
                                         previousState.continents[i].countries[j].leagues[k + 1].clubs.push(relegatedClub)
                                         console.log(relegatedClub.name + ' has been relegated from ' + league.name)
                                     }
-                                } 
+                                }
                             }
                         }
                     }

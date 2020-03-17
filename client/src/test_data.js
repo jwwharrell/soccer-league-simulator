@@ -116,9 +116,6 @@ export default {
             name: 'South America',
             countries: []
         },
-    ],
-    randomNames: [
-        
     ]
 }
 
