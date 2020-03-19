@@ -391,7 +391,7 @@ export default class SimulationArena extends Component {
                                                 }
                                             }
                                             if (player.age >= 30) {
-                                                player.skill -= 5
+                                                player.skill -= this.skillGainsThroughClubTraining(100 - club.trainingRating)
                                                 if (player.skill < 1) {
                                                     player.skill = 1
                                                 }
@@ -411,12 +411,15 @@ export default class SimulationArena extends Component {
     }
 
     skillGainsThroughClubTraining = (clubTrainingRating) => {
+        if (clubTrainingRating < 27) {
+            clubTrainingRating = 27
+        }
         let skillGain = Math.floor(Math.random() * Math.floor(clubTrainingRating / 9))
         skillGain += (clubTrainingRating / 30)
         if (skillGain > Math.floor(clubTrainingRating / 9)) {
             skillGain = Math.floor(clubTrainingRating / 9)
         }
-        return skillGain
+        return Math.floor(skillGain)
     }
 
     handleContinentClick = (e) => {
