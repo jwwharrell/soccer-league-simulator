@@ -19,9 +19,15 @@ export default {
                             pyramidPos: 1,
                             proPos: false,
                             relPos: true,
+                            trainingCeiling: 99,
+                            trainingFloor: 75,
+                            youthCeiling: 99,
+                            youthFloor: 75,
                             clubs: [
                                 {
                                     name: 'Tottenham Hotspur',
+                                    trainingRating: 75,
+                                    youthRating: 75,
                                     players: [
                                         {
                                             name: 'Harry Kane',
@@ -55,6 +61,8 @@ export default {
                                 },
                                 {
                                     name: 'Arsenal',
+                                    trainingRating: 75,
+                                    youthRating: 75,
                                     players: [
                                         {
                                             name: 'Pierre-Emerick Aubameyang',
@@ -67,6 +75,8 @@ export default {
                                 },
                                 {
                                     name: 'Chelsea',
+                                    trainingRating: 75,
+                                    youthRating: 75,
                                     players: [
                                         {
                                             name: `N'Golo Kante`,
@@ -84,17 +94,27 @@ export default {
                             pyramidPos: 2,
                             proPos: true,
                             relPos: false,
+                            trainingCeiling: 74,
+                            trainingFloor: 50,
+                            youthCeiling: 74,
+                            youthFloor: 50,
                             clubs: [
                                 {
                                     name: 'Leeds United',
+                                    trainingRating: 50,
+                                    youthRating: 50,
                                     players: [],
                                 },
                                 {
                                     name: 'Reading',
+                                    trainingRating: 50,
+                                    youthRating: 50,
                                     players: [],
                                 },
                                 {
                                     name: 'Stoke City',
+                                    trainingRating: 50,
+                                    youthRating: 50,
                                     players: [],
                                 },
                             ]

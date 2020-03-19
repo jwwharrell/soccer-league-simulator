@@ -48,20 +48,18 @@ export default class SimulationArena extends Component {
         try {
             let res = await axios.get('https://randomuser.me/api/?results=100&nat=dk,fr,gb&gender=male&inc=name&noinfo')
             previousState.randomNames = res.data.results
-            console.log('API is working correctly')
         } catch (e) {
             let randomName = []
             for (let i = 0; i < 100; i++) {
                 let nameItem = {
                     name: {
                         first: 'John',
-                        last: `Doe ${i + 1}`
+                        last: `Doe ${this.state.season.year} ${i + 1}`
                     }
                 }
                 randomName.push(nameItem)
             }
             previousState.randomNames = randomName
-            console.log('API failed, John Doe is the default name.')
         } finally {
             this.checkAndAddMissingPositions(previousState)
         }
@@ -178,7 +176,6 @@ export default class SimulationArena extends Component {
     }
 
     createFillerPlayer = (pos, name) => {
-        console.log(name.name.first)
         const fullName = name.name.first + ' ' + name.name.last
         const fullPos = {
             'GK': 'Goalkeeper',
@@ -381,7 +378,13 @@ export default class SimulationArena extends Component {
                                 for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].clubs.length; l++) {
                                     if (previousState.continents[i].countries[j].leagues[k].clubs[l].players.length) {
                                         for (let m = 0; m < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; m++) {
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[m].age += 1
+                                            let club = previousState.continents[i].countries[j].leagues[k].clubs[l]
+                                            let player = club.players[m]
+                                            if (player.age === 40) {
+                                                console.log(`${player.name} of ${club.name} is retiring.`)
+                                                club.players.splice(m, 1)
+                                            }
+                                            player.age += 1
                                         }
                                     }
                                 }
