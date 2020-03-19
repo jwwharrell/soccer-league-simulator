@@ -384,6 +384,18 @@ export default class SimulationArena extends Component {
                                                 console.log(`${player.name} of ${club.name} is retiring.`)
                                                 club.players.splice(m, 1)
                                             }
+                                            if (player.age < 30) {
+                                                player.skill += 5
+                                                if (player.skill > 99) {
+                                                    player.skill = 99
+                                                }
+                                            }
+                                            if (player.age >= 30) {
+                                                player.skill -= 5
+                                                if (player.skill < 1) {
+                                                    player.skill = 1
+                                                }
+                                            }
                                             player.age += 1
                                         }
                                     }
