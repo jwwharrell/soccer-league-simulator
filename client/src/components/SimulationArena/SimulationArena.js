@@ -361,6 +361,26 @@ export default class SimulationArena extends Component {
                                     }
                                 }
                             }
+                            
+                        }
+                        for (let l = 0; l < previousState.continents[i].countries[j].leagues.length; l++) {
+                            let league = previousState.continents[i].countries[j].leagues[l]
+                            for (let m = 0; m < league.clubs.length; m++) {
+                                let club = league.clubs[m]
+                                if (club.trainingRating > league.trainingCeiling) {
+                                    club.trainingRating -= 5
+                                    if (club.trainingRating < league.trainingCeiling) {
+                                        club.trainingRating = league.trainingCeiling
+                                    }
+                                } else if (club.trainingRating < league.trainingFloor) {
+                                    club.trainingRating += 5
+                                    if (club.trainingRating > league.trainingFloor) {
+                                        club.trainingRating = league.trainingFloor
+                                    }
+                                } else if (club.trainingRating >= league.trainingFloor && club.trainingRating < league.trainingCeiling) {
+                                    club.trainingRating += 1
+                                }
+                            }
                         }
                     }
                 }
@@ -476,7 +496,7 @@ export default class SimulationArena extends Component {
         let seasonValue = this.state.seasonValue
         return (
             <div className='simArena'>
-                <h1>{this.state.season.year} {this.state.partOfSeason[seasonValue]} | <span className='advance' onClick={this.handleAdvanceSeason}>>>></span></h1>
+                <h1><span className='advance' onClick={this.handleAdvanceSeason}>>>></span> | {this.state.season.year} {this.state.partOfSeason[seasonValue]}</h1>
                 <h1>World</h1>
                 <div className='buttonList'>
                     {this.state.continents.map((continent, index) => {
