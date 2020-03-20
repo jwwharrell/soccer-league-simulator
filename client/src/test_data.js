@@ -93,7 +93,7 @@ export default {
                             name: 'EFL Championship',
                             pyramidPos: 2,
                             proPos: true,
-                            relPos: false,
+                            relPos: true,
                             trainingCeiling: 74,
                             trainingFloor: 50,
                             youthCeiling: 74,
@@ -118,7 +118,67 @@ export default {
                                     players: [],
                                 },
                             ]
-                        }
+                        },
+                        {
+                            name: 'EFL League 1',
+                            pyramidPos: 3,
+                            proPos: true,
+                            relPos: true,
+                            trainingCeiling: 49,
+                            trainingFloor: 25,
+                            youthCeiling: 49,
+                            youthFloor: 25,
+                            clubs: [
+                                {
+                                    name: 'AFC Wimbledon',
+                                    trainingRating: 25,
+                                    youthRating: 25,
+                                    players: [],
+                                },
+                                {
+                                    name: 'Lincoln City',
+                                    trainingRating: 25,
+                                    youthRating: 25,
+                                    players: [],
+                                },
+                                {
+                                    name: 'Sunderland',
+                                    trainingRating: 25,
+                                    youthRating: 25,
+                                    players: [],
+                                },
+                            ]
+                        },
+                        {
+                            name: 'EFL League 2',
+                            pyramidPos: 4,
+                            proPos: true,
+                            relPos: false,
+                            trainingCeiling: 24,
+                            trainingFloor: 1,
+                            youthCeiling: 24,
+                            youthFloor: 1,
+                            clubs: [
+                                {
+                                    name: 'Bradford City',
+                                    trainingRating: 1,
+                                    youthRating: 1,
+                                    players: [],
+                                },
+                                {
+                                    name: 'Dagenham & Redbridge',
+                                    trainingRating: 99,
+                                    youthRating: 99,
+                                    players: [],
+                                },
+                                {
+                                    name: 'Leyton Orient',
+                                    trainingRating: 1,
+                                    youthRating: 1,
+                                    players: [],
+                                },
+                            ]
+                        },
                     ]
                 }
             ]

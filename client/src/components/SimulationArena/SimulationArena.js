@@ -46,11 +46,11 @@ export default class SimulationArena extends Component {
 
     getName = async (previousState) => {
         try {
-            let res = await axios.get('https://randomuser.me/api/?results=100&nat=dk,fr,gb&gender=male&inc=name&noinfo')
+            let res = await axios.get('https://randomuser.me/api/?results=500&nat=dk,fr,gb&gender=male&inc=name&noinfo')
             previousState.randomNames = res.data.results
         } catch (e) {
             let randomName = []
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 500; i++) {
                 let nameItem = {
                     name: {
                         first: 'John',
