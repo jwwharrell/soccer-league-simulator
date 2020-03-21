@@ -110,6 +110,7 @@ export default class SimulationArena extends Component {
                         for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
                             if (previousState.continents[i].countries[j].leagues[k].clubs.length) {
                                 for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].clubs.length; l++) {
+                                    const club = previousState.continents[i].countries[j].leagues[k].clubs[l]
                                     const requiredPos = {
                                         'GK': 1,
                                         'LB': 1,
@@ -120,51 +121,64 @@ export default class SimulationArena extends Component {
                                         'RM': 1,
                                         'ST': 2
                                     }
-                                    for (let m = 0; m < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; m++) {
-                                        requiredPos[previousState.continents[i].countries[j].leagues[k].clubs[l].players[m].posAbr] -= 1
+                                    for (let m = 0; m < club.players.length; m++) {
+                                        requiredPos[club.players[m].posAbr] -= 1
                                     }
                                     const posNeedingToBeFilled = Object.entries(requiredPos)
                                     for (let n = 0; n < posNeedingToBeFilled.length; n++) {
                                         if (posNeedingToBeFilled[n][1] === 2) {
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
+                                            club.players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
+                                            club.players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
                                         }
                                         if (posNeedingToBeFilled[n][1] === 1) {
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
+                                            club.players.push(this.createFillerPlayer(posNeedingToBeFilled[n][0], previousState.randomNames.pop()))
                                         }
+                                    }
+
+                                    //Divide lineup players and bench
+                                    let lineup = []
+                                    let bench = []
+                                    let strikers = club.players.filter(player => {
+                                        return player.posAbr === 'ST'
+                                    })
+                                    if (strikers.length > 2) {
+                                        
+                                    } else {
+                                        lineup.push(strikers[0])
+                                        lineup.push(strikers[1])
                                     }
 
                                     let ovrSquadSkill = 0
                                     let squadAttackingSkill = 0
                                     let squadDefendingSkill = 0
                                     let centerMidSkill = 0
-                                    for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
-                                        if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'CM') {
-                                            centerMidSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
+                                    for (let o = 0; o < club.players.length; o++) {
+                                        if (club.players[o].posAbr === 'CM') {
+                                            centerMidSkill += club.players[o].skill
                                         }
                                     }
                                     centerMidSkill = Math.floor(centerMidSkill / 2)
-                                    for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
-                                        if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'ST' ||
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'LM' ||
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'RM') {
-                                            squadAttackingSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
+                                    for (let o = 0; o < club.players.length; o++) {
+                                        if (club.players[o].posAbr === 'ST' ||
+                                            club.players[o].posAbr === 'LM' ||
+                                            club.players[o].posAbr === 'RM') {
+                                            squadAttackingSkill += club.players[o].skill
                                         }
                                     }
                                     squadAttackingSkill = Math.floor((squadAttackingSkill + centerMidSkill) / 5)
-                                    for (let o = 0; o < previousState.continents[i].countries[j].leagues[k].clubs[l].players.length; o++) {
-                                        if (previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'CB' ||
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'LB' ||
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'RB' ||
-                                            previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].posAbr === 'GK') {
-                                            squadDefendingSkill += previousState.continents[i].countries[j].leagues[k].clubs[l].players[o].skill
+                                    for (let o = 0; o < club.players.length; o++) {
+                                        if (club.players[o].posAbr === 'CB' ||
+                                            club.players[o].posAbr === 'LB' ||
+                                            club.players[o].posAbr === 'RB' ||
+                                            club.players[o].posAbr === 'GK') {
+                                            squadDefendingSkill += club.players[o].skill
                                         }
                                     }
                                     squadDefendingSkill = Math.floor((squadDefendingSkill + centerMidSkill) / 6)
                                     ovrSquadSkill = Math.floor((squadAttackingSkill + squadDefendingSkill) / 2)
-                                    previousState.continents[i].countries[j].leagues[k].clubs[l].squadOverallSkill = ovrSquadSkill
-                                    previousState.continents[i].countries[j].leagues[k].clubs[l].squadAttackingSkill = squadAttackingSkill
-                                    previousState.continents[i].countries[j].leagues[k].clubs[l].squadDefendingSkill = squadDefendingSkill
+                                    club.squadOverallSkill = ovrSquadSkill
+                                    club.squadAttackingSkill = squadAttackingSkill
+                                    club.squadDefendingSkill = squadDefendingSkill
                                 }
                             }
                         }

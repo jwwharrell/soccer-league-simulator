@@ -90,18 +90,9 @@ export default class ClubView extends Component {
                         })}
                     </div>
                 </div>
-                <div className='buttonList'>
-                    {/* {this.props.club.players.map((player, index) => {
-                        return (
-                            <button
-                                key={`player-${index + 1}`}
-                                onClick={this.handlePlayerClick}
-                                value={index}
-                            >
-                                {player.name}
-                            </button>
-                        )
-                    })} */}
+                <h2>Bench</h2>
+                <div className='bench'>
+
                 </div>
             </div>
         )
