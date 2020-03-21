@@ -16,16 +16,16 @@ export default class ClubView extends Component {
     }
 
     render() {
-        const attack = this.props.club.players.filter(player => {
+        const attack = this.props.club.lineup.filter(player => {
             return player.posAbr === 'ST'
         })
-        const midfield = this.props.club.players.filter(player => {
+        const midfield = this.props.club.lineup.filter(player => {
             return player.posAbr === 'LM' || player.posAbr === 'CM' || player.posAbr === 'RM'
         })
-        const defense = this.props.club.players.filter(player => {
+        const defense = this.props.club.lineup.filter(player => {
             return player.posAbr === 'LB' || player.posAbr === 'CB' || player.posAbr === 'RB'
         })
-        const goalkeeper = this.props.club.players.filter(player => {
+        const goalkeeper = this.props.club.lineup.filter(player => {
             return player.posAbr === 'GK'
         })
         return (
@@ -92,7 +92,17 @@ export default class ClubView extends Component {
                 </div>
                 <h2>Bench</h2>
                 <div className='bench'>
-
+                        {this.props.club.bench.map((player, index) => {
+                            return (
+                                <button
+                                    key={`player-${index + 1}`}
+                                    onClick={this.handlePlayerClick}
+                                    value={player.name}
+                                >
+                                    {player.name}
+                                </button>
+                            )
+                        })}
                 </div>
             </div>
         )

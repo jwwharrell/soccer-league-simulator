@@ -57,6 +57,20 @@ export default {
                                             age: 32,
                                             skill: 88
                                         },
+                                        {
+                                            name: 'Paulo Gazzaniga',
+                                            position: 'Goalkeeper',
+                                            posAbr: 'GK',
+                                            age: 27,
+                                            skill: 77
+                                        },
+                                        {
+                                            name: 'Michel Vorm',
+                                            position: 'Goalkeeper',
+                                            posAbr: 'GK',
+                                            age: 35,
+                                            skill: 74
+                                        },
                                     ],
                                 },
                                 {

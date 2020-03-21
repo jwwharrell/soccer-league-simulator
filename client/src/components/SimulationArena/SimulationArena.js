@@ -433,8 +433,30 @@ export default class SimulationArena extends Component {
             name: fullName,
             position: fullPos[pos],
             posAbr: pos,
-            age: 18,
+            age: 20,
             skill: 12
+        }
+        return newPlayer
+    }
+
+    createYouthPlayer = (pos, name, clubYouthRating) => {
+        const fullName = name.name.first + ' ' + name.name.last
+        const fullPos = {
+            'GK': 'Goalkeeper',
+            'LB': 'Left Back',
+            'CB': 'Center Back',
+            'RB': 'Right Back',
+            'LM': 'Left Midfielder',
+            'CM': 'Central Midfielder',
+            'RM': 'Right Midfielder',
+            'ST': 'Striker'
+        }
+        const newPlayer = {
+            name: fullName,
+            position: fullPos[pos],
+            posAbr: pos,
+            age: 18,
+            skill: clubYouthRating
         }
         return newPlayer
     }
@@ -668,8 +690,45 @@ export default class SimulationArena extends Component {
                 }
             }
         }
+        this.youthIntake(previousState)
         this.promoteAndRelegateClubs(previousState)
         this.setState(previousState)
+    }
+
+    positionSelector = () => {
+        const possiblePositions = {
+            0: 'GK',
+            1: 'LB',
+            2: 'CB',
+            3: 'RB',
+            4: 'LM',
+            5: 'CM',
+            6: 'RM',
+            7: 'ST'
+        }
+        return possiblePositions[this.getRandomInt(7)]
+    }
+
+    youthIntake = (previousState) => {
+        for (let i = 0; i < previousState.continents.length; i++) {
+            if (previousState.continents[i].countries.length) {
+                for (let j = 0; j < previousState.continents[i].countries.length; j++) {
+                    if (previousState.continents[i].countries[j].leagues.length) {
+                        for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
+                            if (previousState.continents[i].countries[j].leagues[k].clubs.length) {
+                                for (let l = 0; l < previousState.continents[i].countries[j].leagues[k].clubs.length; l++) {
+                                    const club = previousState.continents[i].countries[j].leagues[k].clubs[l]
+                                    let newPlayer1 = this.createYouthPlayer(this.positionSelector(), previousState.randomNames.pop(), club.youthRating)
+                                    let newPlayer2 = this.createYouthPlayer(this.positionSelector(), previousState.randomNames.pop(), club.youthRating)
+                                    club.players.push(newPlayer1)
+                                    club.players.push(newPlayer2)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     skillGainsThroughClubTraining = (clubTrainingRating) => {
