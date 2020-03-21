@@ -376,6 +376,23 @@ export default class SimulationArena extends Component {
                                     club.bench = bench
 
 
+                                    if (club.bench.length > 12) {
+                                        let count = club.bench.length - 12
+                                        for (let p = 0; p < count; p++) {
+                                            let lowestSkilledPlayer = club.bench[0]
+                                            let lowestSkilledPlayerIndex = 0
+                                            for (let o = 0; o < club.bench.length; o++) {
+                                                if (club.bench[o].skill < lowestSkilledPlayer.skill) {
+                                                    lowestSkilledPlayer = club.bench[o]
+                                                    lowestSkilledPlayerIndex = o
+                                                }
+                                            }
+                                            let removedPlayer = club.bench.splice(lowestSkilledPlayerIndex, 1)
+                                            console.log(removedPlayer)
+                                        }
+                                    }
+
+
                                     let ovrSquadSkill = 0
                                     let squadAttackingSkill = 0
                                     let squadDefendingSkill = 0
@@ -604,14 +621,14 @@ export default class SimulationArena extends Component {
                     if (previousState.continents[i].countries[j].leagues.length) {
                         for (let k = 0; k < previousState.continents[i].countries[j].leagues.length; k++) {
                             let league = previousState.continents[i].countries[j].leagues[k]
-                            console.log(league.name)
+                            // console.log(league.name)
                             if (league.proPos) {
                                 for (let l = 0; l < league.clubs.length; l++) {
                                     if (league.clubs[l] === league.promotedClub) {
                                         league.clubs.splice(l, 1)
                                         let promotedClub = league.promotedClub
                                         previousState.continents[i].countries[j].leagues[k - 1].clubs.push(promotedClub)
-                                        console.log(promotedClub.name + ' has been promoted from ' + league.name)
+                                        // console.log(promotedClub.name + ' has been promoted from ' + league.name)
                                     }
                                 }
                             }
@@ -621,7 +638,7 @@ export default class SimulationArena extends Component {
                                         league.clubs.splice(l, 1)
                                         let relegatedClub = league.relegatedClub
                                         previousState.continents[i].countries[j].leagues[k + 1].clubs.push(relegatedClub)
-                                        console.log(relegatedClub.name + ' has been relegated from ' + league.name)
+                                        // console.log(relegatedClub.name + ' has been relegated from ' + league.name)
                                     }
                                 }
                             }
