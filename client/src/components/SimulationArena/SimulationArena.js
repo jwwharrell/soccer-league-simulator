@@ -165,7 +165,7 @@ export default class SimulationArena extends Component {
                                         lineup.push(striker1)
                                         lineup.push(striker2)
                                         for (let stIndex = 0; stIndex < strikers.length; stIndex++) {
-                                            if (strikers[stIndex] !== striker1 || strikers[stIndex] !== striker2) {
+                                            if (strikers[stIndex] !== striker1 && strikers[stIndex] !== striker2) {
                                                 bench.push(strikers[stIndex])
                                             }
                                         }
@@ -225,7 +225,7 @@ export default class SimulationArena extends Component {
                                         lineup.push(centerMid1)
                                         lineup.push(centerMid2)
                                         for (let cmIndex = 0; cmIndex < centerMidfielders.length; cmIndex++) {
-                                            if (centerMidfielders[cmIndex] !== centerMid1 || centerMidfielders[cmIndex] !== centerMid2) {
+                                            if (centerMidfielders[cmIndex] !== centerMid1 && centerMidfielders[cmIndex] !== centerMid2) {
                                                 bench.push(centerMidfielders[cmIndex])
                                             }
                                         }
@@ -311,7 +311,7 @@ export default class SimulationArena extends Component {
                                         lineup.push(centerBack1)
                                         lineup.push(centerBack2)
                                         for (let cbIndex = 0; cbIndex < centerBacks.length; cbIndex++) {
-                                            if (centerBacks[cbIndex] !== centerBack1 || centerBacks[cbIndex] !== centerBack2) {
+                                            if (centerBacks[cbIndex] !== centerBack1 && centerBacks[cbIndex] !== centerBack2) {
                                                 bench.push(centerBacks[cbIndex])
                                             }
                                         }
@@ -380,26 +380,26 @@ export default class SimulationArena extends Component {
                                     let squadAttackingSkill = 0
                                     let squadDefendingSkill = 0
                                     let centerMidSkill = 0
-                                    for (let o = 0; o < club.players.length; o++) {
-                                        if (club.players[o].posAbr === 'CM') {
-                                            centerMidSkill += club.players[o].skill
+                                    for (let o = 0; o < club.lineup.length; o++) {
+                                        if (club.lineup[o].posAbr === 'CM') {
+                                            centerMidSkill += club.lineup[o].skill
                                         }
                                     }
                                     centerMidSkill = Math.floor(centerMidSkill / 2)
-                                    for (let o = 0; o < club.players.length; o++) {
-                                        if (club.players[o].posAbr === 'ST' ||
-                                            club.players[o].posAbr === 'LM' ||
-                                            club.players[o].posAbr === 'RM') {
-                                            squadAttackingSkill += club.players[o].skill
+                                    for (let o = 0; o < club.lineup.length; o++) {
+                                        if (club.lineup[o].posAbr === 'ST' ||
+                                            club.lineup[o].posAbr === 'LM' ||
+                                            club.lineup[o].posAbr === 'RM') {
+                                            squadAttackingSkill += club.lineup[o].skill
                                         }
                                     }
                                     squadAttackingSkill = Math.floor((squadAttackingSkill + centerMidSkill) / 5)
-                                    for (let o = 0; o < club.players.length; o++) {
-                                        if (club.players[o].posAbr === 'CB' ||
-                                            club.players[o].posAbr === 'LB' ||
-                                            club.players[o].posAbr === 'RB' ||
-                                            club.players[o].posAbr === 'GK') {
-                                            squadDefendingSkill += club.players[o].skill
+                                    for (let o = 0; o < club.lineup.length; o++) {
+                                        if (club.lineup[o].posAbr === 'CB' ||
+                                            club.lineup[o].posAbr === 'LB' ||
+                                            club.lineup[o].posAbr === 'RB' ||
+                                            club.lineup[o].posAbr === 'GK') {
+                                            squadDefendingSkill += club.lineup[o].skill
                                         }
                                     }
                                     squadDefendingSkill = Math.floor((squadDefendingSkill + centerMidSkill) / 6)
