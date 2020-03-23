@@ -432,6 +432,24 @@ export default class SimulationArena extends Component {
                 }
             }
         }
+        //Controls the size of the free agent pool
+        if (previousState.freeAgents.length > 30) {
+            console.log('going to remove excess free agents')
+            while (previousState.freeAgents.length > 30) {
+                console.log(previousState.freeAgents.length + ' free agents before')
+                let worstPlayer = previousState.freeAgents[0]
+                let worstIndex = 0
+                for (let i = 0; i < previousState.freeAgents.length; i++) {
+                    if(previousState.freeAgents[i].skill < worstPlayer.skill) {
+                        worstPlayer = previousState.freeAgents[i]
+                        worstIndex = i
+                    }
+                }
+                console.log(worstPlayer.skill)
+                previousState.freeAgents.splice(worstIndex, 1)
+            }
+            console.log(previousState.freeAgents.length + ' free agents after')
+        }
         this.setState(previousState)
     }
 
