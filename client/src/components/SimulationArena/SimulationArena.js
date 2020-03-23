@@ -26,7 +26,8 @@ export default class SimulationArena extends Component {
         leagues: [],
         clubs: [],
         players: [],
-        randomNames: []
+        randomNames: [],
+        freeAgents: []
     }
 
     handleAdvanceSeason = () => {
@@ -388,7 +389,7 @@ export default class SimulationArena extends Component {
                                                 }
                                             }
                                             let removedPlayer = club.bench.splice(lowestSkilledPlayerIndex, 1)
-                                            console.log(removedPlayer)
+                                            previousState.freeAgents.push(removedPlayer[0])
                                         }
                                     }
 
