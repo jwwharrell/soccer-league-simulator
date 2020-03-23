@@ -432,6 +432,13 @@ export default class SimulationArena extends Component {
                 }
             }
         }
+        //Removes players at age 40 or older
+        for (let i = 0; i < previousState.freeAgents.length; i++) {
+            if (previousState.freeAgents[i].age >= 40) {
+                previousState.freeAgents.splice(i, 1)
+                i -= 1
+            }
+        }
         //Controls the size of the free agent pool
         if (previousState.freeAgents.length > 30) {
             console.log('going to remove excess free agents')
