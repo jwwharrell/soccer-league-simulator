@@ -69,6 +69,16 @@ button {
   }
 }
 
+.freeAgentWindow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  button {
+    margin: 10px;
+  }
+}
+
 .lineup {
   display: flex;
   flex-direction: column;

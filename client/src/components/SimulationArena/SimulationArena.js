@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import SimData from '../../test_data.js'
+import FreeAgentsView from './SimViews/FreeAgentsView.js'
 import ContintentView from './SimViews/ContinentView.js'
 import CountryView from './SimViews/CountryView.js'
 import LeagueView from './SimViews/LeagueView.js'
@@ -27,7 +28,8 @@ export default class SimulationArena extends Component {
         clubs: [],
         players: [],
         randomNames: [],
-        freeAgents: []
+        freeAgents: [],
+        showFreeAgents: false,
     }
 
     handleAdvanceSeason = () => {
@@ -150,7 +152,7 @@ export default class SimulationArena extends Component {
                                         let striker2
                                         if (strikers[0].skill >= strikers[1].skill) {
                                             striker1 = strikers[0]
-                                            striker2 = strikers[1] 
+                                            striker2 = strikers[1]
                                         } else {
                                             striker1 = strikers[1]
                                             striker2 = strikers[0]
@@ -210,7 +212,7 @@ export default class SimulationArena extends Component {
                                         let centerMid2
                                         if (centerMidfielders[0].skill >= centerMidfielders[1].skill) {
                                             centerMid1 = centerMidfielders[0]
-                                            centerMid2 = centerMidfielders[1] 
+                                            centerMid2 = centerMidfielders[1]
                                         } else {
                                             centerMid1 = centerMidfielders[1]
                                             centerMid2 = centerMidfielders[0]
@@ -296,7 +298,7 @@ export default class SimulationArena extends Component {
                                         let centerBack2
                                         if (centerBacks[0].skill >= centerBacks[1].skill) {
                                             centerBack1 = centerBacks[0]
-                                            centerBack2 = centerBacks[1] 
+                                            centerBack2 = centerBacks[1]
                                         } else {
                                             centerBack1 = centerBacks[1]
                                             centerBack2 = centerBacks[0]
@@ -447,7 +449,7 @@ export default class SimulationArena extends Component {
                 let worstPlayer = previousState.freeAgents[0]
                 let worstIndex = 0
                 for (let i = 0; i < previousState.freeAgents.length; i++) {
-                    if(previousState.freeAgents[i].skill < worstPlayer.skill) {
+                    if (previousState.freeAgents[i].skill < worstPlayer.skill) {
                         worstPlayer = previousState.freeAgents[i]
                         worstIndex = i
                     }
@@ -668,7 +670,7 @@ export default class SimulationArena extends Component {
                                     }
                                 }
                             }
-                            
+
                         }
                         for (let l = 0; l < previousState.continents[i].countries[j].leagues.length; l++) {
                             let league = previousState.continents[i].countries[j].leagues[l]
@@ -786,6 +788,12 @@ export default class SimulationArena extends Component {
         return Math.floor(skillGain)
     }
 
+    handleFreeAgentsClick = () => {
+        const previousState = { ...this.state }
+        previousState.showFreeAgents = !this.state.showFreeAgents
+        this.setState(previousState)
+    }
+
     handleContinentClick = (e) => {
         const previousState = { ...this.state }
         previousState.currentContinent = this.state.continents[e.target.value]
@@ -841,6 +849,13 @@ export default class SimulationArena extends Component {
         return (
             <div className='simArena'>
                 <h1><span className='advance' onClick={this.handleAdvanceSeason}>>>></span> | {this.state.season.year} {this.state.partOfSeason[seasonValue]}</h1>
+                <button onClick={this.handleFreeAgentsClick}>Free Agents</button>
+                {this.state.showFreeAgents ?
+                    <FreeAgentsView
+                        freeAgents={this.state.freeAgents}
+                     />
+                    : null
+                }
                 <h1>World</h1>
                 <div className='buttonList'>
                     {this.state.continents.map((continent, index) => {
