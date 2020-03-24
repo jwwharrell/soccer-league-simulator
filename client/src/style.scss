@@ -105,3 +105,13 @@ button {
     justify-content: space-evenly;
   }
 }
+
+.bench {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  button {
+    margin: 10px;
+  }
+}

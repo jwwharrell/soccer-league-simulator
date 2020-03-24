@@ -30,6 +30,7 @@ export default class SimulationArena extends Component {
         randomNames: [],
         freeAgents: [],
         showFreeAgents: false,
+        userControlledClub: ''
     }
 
     handleAdvanceSeason = () => {

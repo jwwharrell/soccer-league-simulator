@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 
 export default class ClubView extends Component {
 
+    handleTakeControlClick = () => {
+        console.log(`You are controlling ${this.props.club.name}`)
+    }
+
     handlePlayerClick = (e) => {
         const playerName = e.target.value
         const indexFinder = () => {
@@ -31,6 +35,7 @@ export default class ClubView extends Component {
         return (
             <div>
                 <h1>{this.props.club.name}</h1>
+                <button onClick={this.handleTakeControlClick}>Take Control</button>
                 <h3>{this.props.club.name} Training Rating: {this.props.club.trainingRating}</h3>
                 <h3>Overall Squad Skill: {this.props.club.squadOverallSkill}</h3>
                 <p>Squad Attack: {this.props.club.squadAttackingSkill}</p>
