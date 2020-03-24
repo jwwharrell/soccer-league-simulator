@@ -839,6 +839,12 @@ export default class SimulationArena extends Component {
         this.setState(previousState)
     }
 
+    handleControlClick = (club) => {
+        const previousState = {...this.state}
+        previousState.userControlledClub = club
+        this.setState(previousState)
+    }
+
     handlePlayerClick = (index) => {
         const previousState = { ...this.state }
         previousState.currentPlayer = this.state.currentClub.players[index]
@@ -849,12 +855,22 @@ export default class SimulationArena extends Component {
         let seasonValue = this.state.seasonValue
         return (
             <div className='simArena'>
-                <h1><span className='advance' onClick={this.handleAdvanceSeason}>>>></span> | {this.state.season.year} {this.state.partOfSeason[seasonValue]}</h1>
+                <div className='banner'>
+                    <div className='leftBan'>
+                        <h1><span className='advance' onClick={this.handleAdvanceSeason}>>>></span> | {this.state.season.year} {this.state.partOfSeason[seasonValue]}</h1>
+                    </div>
+                    <div className='rightBan'>
+                        {this.state.userControlledClub ?
+                            <div>Controlling {this.state.userControlledClub.name}</div>
+                            : <div>Select a club to control.</div>
+                        }
+                    </div>
+                </div>
                 <button onClick={this.handleFreeAgentsClick}>Free Agents</button>
                 {this.state.showFreeAgents ?
                     <FreeAgentsView
                         freeAgents={this.state.freeAgents}
-                     />
+                    />
                     : null
                 }
                 <h1>World</h1>
@@ -910,6 +926,7 @@ export default class SimulationArena extends Component {
                         <hr />
                         <ClubView
                             club={this.state.currentClub}
+                            handleControlClick={this.handleControlClick}
                             handlePlayerClick={this.handlePlayerClick}
                         />
                         <br />

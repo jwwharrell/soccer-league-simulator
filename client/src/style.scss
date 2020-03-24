@@ -53,6 +53,16 @@ button {
   padding: 5px;
 }
 .simArena {
+  .banner {
+    display: flex;
+    justify-content: space-between;
+
+    .rightBan {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
   
   .buttonList {
     display: flex;
