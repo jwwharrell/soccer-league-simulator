@@ -151,7 +151,7 @@ export default class SimulationArena extends Component {
                                     if (strikers.length > 2) {
                                         let striker1
                                         let striker2
-                                        if (strikers[0].skill >= strikers[1].skill) {
+                                        if (strikers[0].skill > strikers[1].skill) {
                                             striker1 = strikers[0]
                                             striker2 = strikers[1]
                                         } else {
@@ -162,7 +162,7 @@ export default class SimulationArena extends Component {
                                             if (strikers[stIndex].skill > striker1.skill) {
                                                 striker2 = striker1
                                                 striker1 = strikers[stIndex]
-                                            } else if (strikers[stIndex].skill > striker2.skill) {
+                                            } else if (strikers[stIndex].skill > striker2.skill && strikers[stIndex].name !== striker1.name) {
                                                 striker2 = strikers[stIndex]
                                             }
                                         }
@@ -184,7 +184,7 @@ export default class SimulationArena extends Component {
                                     })
                                     if (leftMidfielders.length > 1) {
                                         let leftMidfielder1
-                                        if (leftMidfielders[0].skill >= leftMidfielders[1].skill) {
+                                        if (leftMidfielders[0].skill > leftMidfielders[1].skill) {
                                             leftMidfielder1 = leftMidfielders[0]
                                         } else {
                                             leftMidfielder1 = leftMidfielders[1]
@@ -211,7 +211,7 @@ export default class SimulationArena extends Component {
                                     if (centerMidfielders.length > 2) {
                                         let centerMid1
                                         let centerMid2
-                                        if (centerMidfielders[0].skill >= centerMidfielders[1].skill) {
+                                        if (centerMidfielders[0].skill > centerMidfielders[1].skill) {
                                             centerMid1 = centerMidfielders[0]
                                             centerMid2 = centerMidfielders[1]
                                         } else {
@@ -222,7 +222,7 @@ export default class SimulationArena extends Component {
                                             if (centerMidfielders[cmIndex].skill > centerMid1.skill) {
                                                 centerMid2 = centerMid1
                                                 centerMid1 = centerMidfielders[cmIndex]
-                                            } else if (centerMidfielders[cmIndex].skill > centerMid2.skill) {
+                                            } else if (centerMidfielders[cmIndex].skill > centerMid2.skill && centerMidfielders[cmIndex].name !== centerMid1.name) {
                                                 centerMid2 = centerMidfielders[cmIndex]
                                             }
                                         }
@@ -244,7 +244,7 @@ export default class SimulationArena extends Component {
                                     })
                                     if (rightMidfielders.length > 1) {
                                         let rightMidfielder1
-                                        if (rightMidfielders[0].skill >= rightMidfielders[1].skill) {
+                                        if (rightMidfielders[0].skill > rightMidfielders[1].skill) {
                                             rightMidfielder1 = rightMidfielders[0]
                                         } else {
                                             rightMidfielder1 = rightMidfielders[1]
@@ -270,7 +270,7 @@ export default class SimulationArena extends Component {
                                     })
                                     if (leftBacks.length > 1) {
                                         let leftBack1
-                                        if (leftBacks[0].skill >= leftBacks[1].skill) {
+                                        if (leftBacks[0].skill > leftBacks[1].skill) {
                                             leftBack1 = leftBacks[0]
                                         } else {
                                             leftBack1 = leftBacks[1]
@@ -297,7 +297,7 @@ export default class SimulationArena extends Component {
                                     if (centerBacks.length > 2) {
                                         let centerBack1
                                         let centerBack2
-                                        if (centerBacks[0].skill >= centerBacks[1].skill) {
+                                        if (centerBacks[0].skill > centerBacks[1].skill) {
                                             centerBack1 = centerBacks[0]
                                             centerBack2 = centerBacks[1]
                                         } else {
@@ -308,7 +308,7 @@ export default class SimulationArena extends Component {
                                             if (centerBacks[cbIndex].skill > centerBack1.skill) {
                                                 centerBack2 = centerBack1
                                                 centerBack1 = centerBacks[cbIndex]
-                                            } else if (centerBacks[cbIndex].skill > centerBack2.skill) {
+                                            } else if (centerBacks[cbIndex].skill > centerBack2.skill && centerBacks[cbIndex].name !== centerBack1.name) {
                                                 centerBack2 = centerBacks[cbIndex]
                                             }
                                         }
@@ -330,7 +330,7 @@ export default class SimulationArena extends Component {
                                     })
                                     if (rightBacks.length > 1) {
                                         let rightBack1
-                                        if (rightBacks[0].skill >= rightBacks[1].skill) {
+                                        if (rightBacks[0].skill > rightBacks[1].skill) {
                                             rightBack1 = rightBacks[0]
                                         } else {
                                             rightBack1 = rightBacks[1]
@@ -356,7 +356,7 @@ export default class SimulationArena extends Component {
                                     })
                                     if (goalkeepers.length > 1) {
                                         let goalkeeper1
-                                        if (goalkeepers[0].skill >= goalkeepers[1].skill) {
+                                        if (goalkeepers[0].skill > goalkeepers[1].skill) {
                                             goalkeeper1 = goalkeepers[0]
                                         } else {
                                             goalkeeper1 = goalkeepers[1]
@@ -493,9 +493,6 @@ export default class SimulationArena extends Component {
     }
 
     createYouthPlayer = (pos, name, clubYouthRating) => {
-        if (pos === 'ST') {
-            console.log('A striker was born!')
-        }
         const fullName = name.name.first + ' ' + name.name.last
         const fullPos = {
             'GK': 'Goalkeeper',
