@@ -49,10 +49,10 @@ export default class SimulationArena extends Component {
     }
 
     getName = async (previousState) => {
-        try {
-            let res = await axios.get('https://randomuser.me/api/?results=500&nat=dk,fr,gb&gender=male&inc=name&noinfo')
-            previousState.randomNames = res.data.results
-        } catch (e) {
+        // try {
+        //     let res = await axios.get('https://randomuser.me/api/?results=500&nat=dk,fr,gb&gender=male&inc=name&noinfo')
+        //     previousState.randomNames = res.data.results
+        // } catch (e) {
             let randomName = []
             for (let i = 0; i < 500; i++) {
                 let nameItem = {
@@ -64,9 +64,9 @@ export default class SimulationArena extends Component {
                 randomName.push(nameItem)
             }
             previousState.randomNames = randomName
-        } finally {
+        // } finally {
             this.checkAndAddMissingPositions(previousState)
-        }
+        // }
     }
 
     createSeasonSchedule = (previousState) => {
@@ -391,8 +391,15 @@ export default class SimulationArena extends Component {
                                                     lowestSkilledPlayerIndex = o
                                                 }
                                             }
-                                            let removedPlayer = club.bench.splice(lowestSkilledPlayerIndex, 1)
-                                            previousState.freeAgents.push(removedPlayer[0])
+                                            let removedPlayer = club.bench.splice(lowestSkilledPlayerIndex, 1)[0]
+                                            // console.log(removedPlayer)
+                                            for (let q = 0; q < club.players.length; q++) {
+                                                if (club.players[q] === removedPlayer) {
+                                                    club.players.splice(q, 1)
+                                                    q -= 1
+                                                }
+                                            }
+                                            previousState.freeAgents.push(removedPlayer)
                                         }
                                     }
 
@@ -444,9 +451,9 @@ export default class SimulationArena extends Component {
         }
         //Controls the size of the free agent pool
         if (previousState.freeAgents.length > 30) {
-            console.log('going to remove excess free agents')
+            // console.log('going to remove excess free agents')
             while (previousState.freeAgents.length > 30) {
-                console.log(previousState.freeAgents.length + ' free agents before')
+                // console.log(previousState.freeAgents.length + ' free agents before')
                 let worstPlayer = previousState.freeAgents[0]
                 let worstIndex = 0
                 for (let i = 0; i < previousState.freeAgents.length; i++) {
@@ -455,10 +462,10 @@ export default class SimulationArena extends Component {
                         worstIndex = i
                     }
                 }
-                console.log(worstPlayer.skill)
+                // console.log(worstPlayer.skill)
                 previousState.freeAgents.splice(worstIndex, 1)
             }
-            console.log(previousState.freeAgents.length + ' free agents after')
+            // console.log(previousState.freeAgents.length + ' free agents after')
         }
         this.setState(previousState)
     }
@@ -486,6 +493,9 @@ export default class SimulationArena extends Component {
     }
 
     createYouthPlayer = (pos, name, clubYouthRating) => {
+        if (pos === 'ST') {
+            console.log('A striker was born!')
+        }
         const fullName = name.name.first + ' ' + name.name.last
         const fullPos = {
             'GK': 'Goalkeeper',
@@ -548,7 +558,7 @@ export default class SimulationArena extends Component {
             possibleGoals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
         }
 
-        return possibleGoals[this.getRandomInt(possibleGoals.length - 1)]
+        return possibleGoals[this.getRandomInt(possibleGoals.length)]
     }
 
     simulateMatches = (previousState) => {
@@ -711,8 +721,9 @@ export default class SimulationArena extends Component {
                                             let club = previousState.continents[i].countries[j].leagues[k].clubs[l]
                                             let player = club.players[m]
                                             if (player.age === 40) {
-                                                console.log(`${player.name} of ${club.name} is retiring.`)
+                                                // console.log(`${player.name} of ${club.name} is retiring.`)
                                                 club.players.splice(m, 1)
+                                                m -= 1
                                             }
                                             if (player.age < 30) {
                                                 player.skill += this.skillGainsThroughClubTraining(club.trainingRating)
@@ -752,7 +763,7 @@ export default class SimulationArena extends Component {
             6: 'RM',
             7: 'ST'
         }
-        return possiblePositions[this.getRandomInt(7)]
+        return possiblePositions[this.getRandomInt(8)]
     }
 
     youthIntake = (previousState) => {
@@ -789,7 +800,18 @@ export default class SimulationArena extends Component {
         return Math.floor(skillGain)
     }
 
-    handleFreeAgentsClick = () => {
+    moveFreeAgentToCurrentClub = (index) => {
+        if (!this.state.userControlledClub) {
+            console.log('No club is selected')
+            return
+        }
+        const previousState = {...this.state}
+        const player = previousState.freeAgents.splice(index, 1)
+        previousState.userControlledClub.players.push(player[0])
+        this.setState(previousState)
+    }
+
+    handleFreeAgentsViewClick = () => {
         const previousState = { ...this.state }
         previousState.showFreeAgents = !this.state.showFreeAgents
         this.setState(previousState)
@@ -866,10 +888,11 @@ export default class SimulationArena extends Component {
                         }
                     </div>
                 </div>
-                <button onClick={this.handleFreeAgentsClick}>Free Agents</button>
+                <button onClick={this.handleFreeAgentsViewClick}>Free Agents</button>
                 {this.state.showFreeAgents ?
                     <FreeAgentsView
                         freeAgents={this.state.freeAgents}
+                        moveFreeAgentToCurrentClub={this.moveFreeAgentToCurrentClub}
                     />
                     : null
                 }
