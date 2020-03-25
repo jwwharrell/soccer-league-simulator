@@ -7,6 +7,10 @@ export default class ClubView extends Component {
         this.props.handleControlClick(this.props.club)
     }
 
+    handleUpdateRosterClick = () => {
+        this.props.handleUpdateRoster()
+    }
+
     handlePlayerClick = (e) => {
         const playerName = e.target.value
         const indexFinder = () => {
@@ -41,6 +45,7 @@ export default class ClubView extends Component {
                 <h3>Overall Squad Skill: {this.props.club.squadOverallSkill}</h3>
                 <p>Squad Attack: {this.props.club.squadAttackingSkill}</p>
                 <p>Squad Defense: {this.props.club.squadDefendingSkill}</p>
+                <button onClick={this.handleUpdateRosterClick}>Update Roster</button>
                 <h2>Lineup</h2>
                 <div className='lineup'>
                     <div className='attack'>

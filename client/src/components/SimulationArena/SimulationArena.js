@@ -53,19 +53,19 @@ export default class SimulationArena extends Component {
         //     let res = await axios.get('https://randomuser.me/api/?results=500&nat=dk,fr,gb&gender=male&inc=name&noinfo')
         //     previousState.randomNames = res.data.results
         // } catch (e) {
-            let randomName = []
-            for (let i = 0; i < 500; i++) {
-                let nameItem = {
-                    name: {
-                        first: 'John',
-                        last: `Doe ${this.state.season.year} ${i + 1}`
-                    }
+        let randomName = []
+        for (let i = 0; i < 500; i++) {
+            let nameItem = {
+                name: {
+                    first: 'John',
+                    last: `Doe ${this.state.season.year} ${i + 1}`
                 }
-                randomName.push(nameItem)
             }
-            previousState.randomNames = randomName
+            randomName.push(nameItem)
+        }
+        previousState.randomNames = randomName
         // } finally {
-            this.checkAndAddMissingPositions(previousState)
+        this.checkAndAddMissingPositions(previousState)
         // }
     }
 
@@ -802,15 +802,16 @@ export default class SimulationArena extends Component {
             console.log('No club is selected')
             return
         }
-        const previousState = {...this.state}
+        const previousState = { ...this.state }
         const player = previousState.freeAgents.splice(index, 1)
         previousState.userControlledClub.players.push(player[0])
         this.setState(previousState)
     }
 
     changePlayerPosition = (player, newPositionArray) => {
+        let hash = {}
         if (player.posAbr === 'ST') {
-            const hash = {
+            hash = {
                 'CM': 0.90,
                 'LM': 0.90,
                 'RM': 0.90,
@@ -820,7 +821,7 @@ export default class SimulationArena extends Component {
             }
         }
         if (player.posAbr === 'CM') {
-            const hash = {
+            hash = {
                 'ST': 0.90,
                 'LM': 0.90,
                 'RM': 0.90,
@@ -830,7 +831,7 @@ export default class SimulationArena extends Component {
             }
         }
         if (player.posAbr === 'LM') {
-            const hash = {
+            hash = {
                 'ST': 0.90,
                 'CM': 0.85,
                 'RM': 0.90,
@@ -840,7 +841,7 @@ export default class SimulationArena extends Component {
             }
         }
         if (player.posAbr === 'RM') {
-            const hash = {
+            hash = {
                 'ST': 0.90,
                 'CM': 0.85,
                 'LM': 0.90,
@@ -850,7 +851,7 @@ export default class SimulationArena extends Component {
             }
         }
         if (player.posAbr === 'CB') {
-            const hash = {
+            hash = {
                 'ST': 0.80,
                 'CM': 0.90,
                 'LM': 0.80,
@@ -860,7 +861,7 @@ export default class SimulationArena extends Component {
             }
         }
         if (player.posAbr === 'LB') {
-            const hash = {
+            hash = {
                 'ST': 0.80,
                 'CM': 0.80,
                 'LM': 0.90,
@@ -870,7 +871,7 @@ export default class SimulationArena extends Component {
             }
         }
         if (player.posAbr === 'RB') {
-            const hash = {
+            hash = {
                 'ST': 0.80,
                 'CM': 0.80,
                 'LM': 0.85,
@@ -883,6 +884,305 @@ export default class SimulationArena extends Component {
         player.position = newPositionArray[0]
         player.posAbr = newPositionArray[1]
         return player
+    }
+
+    handleUpdateRoster = () => {
+        const previousState = { ...this.state }
+        const club = previousState.currentClub
+        //Divide lineup players and bench
+        let lineup = []
+        let bench = []
+
+        //Divide Strikers
+        let strikers = club.players.filter(player => {
+            return player.posAbr === 'ST'
+        })
+        if (strikers.length > 2) {
+            let striker1
+            let striker2
+            if (strikers[0].skill > strikers[1].skill) {
+                striker1 = strikers[0]
+                striker2 = strikers[1]
+            } else {
+                striker1 = strikers[1]
+                striker2 = strikers[0]
+            }
+            for (let stIndex = 0; stIndex < strikers.length; stIndex++) {
+                if (strikers[stIndex].skill > striker1.skill) {
+                    striker2 = striker1
+                    striker1 = strikers[stIndex]
+                } else if (strikers[stIndex].skill > striker2.skill && strikers[stIndex].name !== striker1.name) {
+                    striker2 = strikers[stIndex]
+                }
+            }
+            lineup.push(striker1)
+            lineup.push(striker2)
+            for (let stIndex = 0; stIndex < strikers.length; stIndex++) {
+                if (strikers[stIndex] !== striker1 && strikers[stIndex] !== striker2) {
+                    bench.push(strikers[stIndex])
+                }
+            }
+        } else {
+            lineup.push(strikers[0])
+            lineup.push(strikers[1])
+        }
+
+        //Divide Left Midfielders
+        let leftMidfielders = club.players.filter(player => {
+            return player.posAbr === 'LM'
+        })
+        if (leftMidfielders.length > 1) {
+            let leftMidfielder1
+            if (leftMidfielders[0].skill > leftMidfielders[1].skill) {
+                leftMidfielder1 = leftMidfielders[0]
+            } else {
+                leftMidfielder1 = leftMidfielders[1]
+            }
+            for (let lmIndex = 0; lmIndex < leftMidfielders.length; lmIndex++) {
+                if (leftMidfielders[lmIndex].skill > leftMidfielder1.skill) {
+                    leftMidfielder1 = leftMidfielders[lmIndex]
+                }
+            }
+            lineup.push(leftMidfielder1)
+            for (let lmIndex = 0; lmIndex < leftMidfielders.length; lmIndex++) {
+                if (leftMidfielders[lmIndex] !== leftMidfielder1) {
+                    bench.push(leftMidfielders[lmIndex])
+                }
+            }
+        } else {
+            lineup.push(leftMidfielders[0])
+        }
+
+        //Divide Center Midfielders
+        let centerMidfielders = club.players.filter(player => {
+            return player.posAbr === 'CM'
+        })
+        if (centerMidfielders.length > 2) {
+            let centerMid1
+            let centerMid2
+            if (centerMidfielders[0].skill > centerMidfielders[1].skill) {
+                centerMid1 = centerMidfielders[0]
+                centerMid2 = centerMidfielders[1]
+            } else {
+                centerMid1 = centerMidfielders[1]
+                centerMid2 = centerMidfielders[0]
+            }
+            for (let cmIndex = 0; cmIndex < centerMidfielders.length; cmIndex++) {
+                if (centerMidfielders[cmIndex].skill > centerMid1.skill) {
+                    centerMid2 = centerMid1
+                    centerMid1 = centerMidfielders[cmIndex]
+                } else if (centerMidfielders[cmIndex].skill > centerMid2.skill && centerMidfielders[cmIndex].name !== centerMid1.name) {
+                    centerMid2 = centerMidfielders[cmIndex]
+                }
+            }
+            lineup.push(centerMid1)
+            lineup.push(centerMid2)
+            for (let cmIndex = 0; cmIndex < centerMidfielders.length; cmIndex++) {
+                if (centerMidfielders[cmIndex] !== centerMid1 && centerMidfielders[cmIndex] !== centerMid2) {
+                    bench.push(centerMidfielders[cmIndex])
+                }
+            }
+        } else {
+            lineup.push(centerMidfielders[0])
+            lineup.push(centerMidfielders[1])
+        }
+
+        //Divide Right Midfielders
+        let rightMidfielders = club.players.filter(player => {
+            return player.posAbr === 'RM'
+        })
+        if (rightMidfielders.length > 1) {
+            let rightMidfielder1
+            if (rightMidfielders[0].skill > rightMidfielders[1].skill) {
+                rightMidfielder1 = rightMidfielders[0]
+            } else {
+                rightMidfielder1 = rightMidfielders[1]
+            }
+            for (let rmIndex = 0; rmIndex < rightMidfielders.length; rmIndex++) {
+                if (rightMidfielders[rmIndex].skill > rightMidfielder1.skill) {
+                    rightMidfielder1 = rightMidfielders[rmIndex]
+                }
+            }
+            lineup.push(rightMidfielder1)
+            for (let rmIndex = 0; rmIndex < rightMidfielders.length; rmIndex++) {
+                if (rightMidfielders[rmIndex] !== rightMidfielder1) {
+                    bench.push(rightMidfielders[rmIndex])
+                }
+            }
+        } else {
+            lineup.push(rightMidfielders[0])
+        }
+
+        //Divide Left Backs
+        let leftBacks = club.players.filter(player => {
+            return player.posAbr === 'LB'
+        })
+        if (leftBacks.length > 1) {
+            let leftBack1
+            if (leftBacks[0].skill > leftBacks[1].skill) {
+                leftBack1 = leftBacks[0]
+            } else {
+                leftBack1 = leftBacks[1]
+            }
+            for (let lbIndex = 0; lbIndex < leftBacks.length; lbIndex++) {
+                if (leftBacks[lbIndex].skill > leftBack1.skill) {
+                    leftBack1 = leftBacks[lbIndex]
+                }
+            }
+            lineup.push(leftBack1)
+            for (let lbIndex = 0; lbIndex < leftBacks.length; lbIndex++) {
+                if (leftBacks[lbIndex] !== leftBack1) {
+                    bench.push(leftBacks[lbIndex])
+                }
+            }
+        } else {
+            lineup.push(leftBacks[0])
+        }
+
+        //Divide Center Backs
+        let centerBacks = club.players.filter(player => {
+            return player.posAbr === 'CB'
+        })
+        if (centerBacks.length > 2) {
+            let centerBack1
+            let centerBack2
+            if (centerBacks[0].skill > centerBacks[1].skill) {
+                centerBack1 = centerBacks[0]
+                centerBack2 = centerBacks[1]
+            } else {
+                centerBack1 = centerBacks[1]
+                centerBack2 = centerBacks[0]
+            }
+            for (let cbIndex = 0; cbIndex < centerBacks.length; cbIndex++) {
+                if (centerBacks[cbIndex].skill > centerBack1.skill) {
+                    centerBack2 = centerBack1
+                    centerBack1 = centerBacks[cbIndex]
+                } else if (centerBacks[cbIndex].skill > centerBack2.skill && centerBacks[cbIndex].name !== centerBack1.name) {
+                    centerBack2 = centerBacks[cbIndex]
+                }
+            }
+            lineup.push(centerBack1)
+            lineup.push(centerBack2)
+            for (let cbIndex = 0; cbIndex < centerBacks.length; cbIndex++) {
+                if (centerBacks[cbIndex] !== centerBack1 && centerBacks[cbIndex] !== centerBack2) {
+                    bench.push(centerBacks[cbIndex])
+                }
+            }
+        } else {
+            lineup.push(centerBacks[0])
+            lineup.push(centerBacks[1])
+        }
+
+        //Divide Right Backs
+        let rightBacks = club.players.filter(player => {
+            return player.posAbr === 'RB'
+        })
+        if (rightBacks.length > 1) {
+            let rightBack1
+            if (rightBacks[0].skill > rightBacks[1].skill) {
+                rightBack1 = rightBacks[0]
+            } else {
+                rightBack1 = rightBacks[1]
+            }
+            for (let rbIndex = 0; rbIndex < rightBacks.length; rbIndex++) {
+                if (rightBacks[rbIndex].skill > rightBack1.skill) {
+                    rightBack1 = rightBacks[rbIndex]
+                }
+            }
+            lineup.push(rightBack1)
+            for (let rbIndex = 0; rbIndex < rightBacks.length; rbIndex++) {
+                if (rightBacks[rbIndex] !== rightBack1) {
+                    bench.push(rightBacks[rbIndex])
+                }
+            }
+        } else {
+            lineup.push(rightBacks[0])
+        }
+
+        //Divide Goalkeepers
+        let goalkeepers = club.players.filter(player => {
+            return player.posAbr === 'GK'
+        })
+        if (goalkeepers.length > 1) {
+            let goalkeeper1
+            if (goalkeepers[0].skill > goalkeepers[1].skill) {
+                goalkeeper1 = goalkeepers[0]
+            } else {
+                goalkeeper1 = goalkeepers[1]
+            }
+            for (let gkIndex = 0; gkIndex < goalkeepers.length; gkIndex++) {
+                if (goalkeepers[gkIndex].skill > goalkeeper1.skill) {
+                    goalkeeper1 = goalkeepers[gkIndex]
+                }
+            }
+            lineup.push(goalkeeper1)
+            for (let gkIndex = 0; gkIndex < goalkeepers.length; gkIndex++) {
+                if (goalkeepers[gkIndex] !== goalkeeper1) {
+                    bench.push(goalkeepers[gkIndex])
+                }
+            }
+        } else {
+            lineup.push(goalkeepers[0])
+        }
+
+        club.lineup = lineup
+        club.bench = bench
+
+
+        if (club.bench.length > 12) {
+            let count = club.bench.length - 12
+            for (let p = 0; p < count; p++) {
+                let lowestSkilledPlayer = club.bench[0]
+                let lowestSkilledPlayerIndex = 0
+                for (let o = 0; o < club.bench.length; o++) {
+                    if (club.bench[o].skill < lowestSkilledPlayer.skill) {
+                        lowestSkilledPlayer = club.bench[o]
+                        lowestSkilledPlayerIndex = o
+                    }
+                }
+                let removedPlayer = club.bench.splice(lowestSkilledPlayerIndex, 1)[0]
+                // console.log(removedPlayer)
+                for (let q = 0; q < club.players.length; q++) {
+                    if (club.players[q] === removedPlayer) {
+                        club.players.splice(q, 1)
+                        q -= 1
+                    }
+                }
+                previousState.freeAgents.push(removedPlayer)
+            }
+        }
+        let ovrSquadSkill = 0
+        let squadAttackingSkill = 0
+        let squadDefendingSkill = 0
+        let centerMidSkill = 0
+        for (let o = 0; o < club.lineup.length; o++) {
+            if (club.lineup[o].posAbr === 'CM') {
+                centerMidSkill += club.lineup[o].skill
+            }
+        }
+        centerMidSkill = Math.floor(centerMidSkill / 2)
+        for (let o = 0; o < club.lineup.length; o++) {
+            if (club.lineup[o].posAbr === 'ST' ||
+                club.lineup[o].posAbr === 'LM' ||
+                club.lineup[o].posAbr === 'RM') {
+                squadAttackingSkill += club.lineup[o].skill
+            }
+        }
+        squadAttackingSkill = Math.floor((squadAttackingSkill + centerMidSkill) / 5)
+        for (let o = 0; o < club.lineup.length; o++) {
+            if (club.lineup[o].posAbr === 'CB' ||
+                club.lineup[o].posAbr === 'LB' ||
+                club.lineup[o].posAbr === 'RB' ||
+                club.lineup[o].posAbr === 'GK') {
+                squadDefendingSkill += club.lineup[o].skill
+            }
+        }
+        squadDefendingSkill = Math.floor((squadDefendingSkill + centerMidSkill) / 6)
+        ovrSquadSkill = Math.floor((squadAttackingSkill + squadDefendingSkill) / 2)
+        club.squadOverallSkill = ovrSquadSkill
+        club.squadAttackingSkill = squadAttackingSkill
+        club.squadDefendingSkill = squadDefendingSkill
+        this.setState(previousState)
     }
 
     handleFreeAgentsViewClick = () => {
@@ -936,7 +1236,7 @@ export default class SimulationArena extends Component {
     }
 
     handleControlClick = (club) => {
-        const previousState = {...this.state}
+        const previousState = { ...this.state }
         previousState.userControlledClub = club
         this.setState(previousState)
     }
@@ -1024,6 +1324,7 @@ export default class SimulationArena extends Component {
                         <ClubView
                             club={this.state.currentClub}
                             handleControlClick={this.handleControlClick}
+                            handleUpdateRoster={this.handleUpdateRoster}
                             handlePlayerClick={this.handlePlayerClick}
                         />
                         <br />
