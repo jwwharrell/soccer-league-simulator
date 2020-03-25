@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export default class ClubView extends Component {
 
     handleTakeControlClick = () => {
-        console.log(`You are controlling ${this.props.club.name}`)
+        // console.log(`You are controlling ${this.props.club.name}`)
         this.props.handleControlClick(this.props.club)
     }
 

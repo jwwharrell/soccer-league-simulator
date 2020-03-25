@@ -808,6 +808,83 @@ export default class SimulationArena extends Component {
         this.setState(previousState)
     }
 
+    changePlayerPosition = (player, newPositionArray) => {
+        if (player.posAbr === 'ST') {
+            const hash = {
+                'CM': 0.90,
+                'LM': 0.90,
+                'RM': 0.90,
+                'LB': 0.80,
+                'CB': 0.80,
+                'RB': 0.80,
+            }
+        }
+        if (player.posAbr === 'CM') {
+            const hash = {
+                'ST': 0.90,
+                'LM': 0.90,
+                'RM': 0.90,
+                'LB': 0.75,
+                'CB': 0.90,
+                'RB': 0.75,
+            }
+        }
+        if (player.posAbr === 'LM') {
+            const hash = {
+                'ST': 0.90,
+                'CM': 0.85,
+                'RM': 0.90,
+                'LB': 0.90,
+                'CB': 0.70,
+                'RB': 0.85,
+            }
+        }
+        if (player.posAbr === 'RM') {
+            const hash = {
+                'ST': 0.90,
+                'CM': 0.85,
+                'LM': 0.90,
+                'LB': 0.85,
+                'CB': 0.70,
+                'RB': 0.90,
+            }
+        }
+        if (player.posAbr === 'CB') {
+            const hash = {
+                'ST': 0.80,
+                'CM': 0.90,
+                'LM': 0.80,
+                'RM': 0.80,
+                'LB': 0.90,
+                'RB': 0.90,
+            }
+        }
+        if (player.posAbr === 'LB') {
+            const hash = {
+                'ST': 0.80,
+                'CM': 0.80,
+                'LM': 0.90,
+                'RM': 0.85,
+                'CB': 0.90,
+                'RB': 0.90,
+            }
+        }
+        if (player.posAbr === 'RB') {
+            const hash = {
+                'ST': 0.80,
+                'CM': 0.80,
+                'LM': 0.85,
+                'RM': 0.90,
+                'LB': 0.90,
+                'CB': 0.90,
+            }
+        }
+        player.skill = player.skill * hash.newPositionArray[1]
+        player.position = newPositionArray[0]
+        player.posAbr = newPositionArray[1]
+        return player
+    }
+
     handleFreeAgentsViewClick = () => {
         const previousState = { ...this.state }
         previousState.showFreeAgents = !this.state.showFreeAgents
