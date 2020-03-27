@@ -880,10 +880,20 @@ export default class SimulationArena extends Component {
                 'CB': 0.90,
             }
         }
-        player.skill = player.skill * hash.newPositionArray[1]
+        player.skill = Math.floor(player.skill * hash[newPositionArray[1]])
         player.position = newPositionArray[0]
         player.posAbr = newPositionArray[1]
-        return player
+        const previousState = { ...this.state }
+        const clubRoster = this.state.currentClub.players
+        let index
+        for (let i = 0; i < clubRoster.length; i++) {
+            if (clubRoster[i].name === player.name) {
+                index = i
+            }
+        }
+        previousState.currentClub.players.splice(index, 1, player)
+        this.setState(previousState)
+        this.handleUpdateRoster()
     }
 
     handleUpdateRoster = () => {
@@ -1336,6 +1346,7 @@ export default class SimulationArena extends Component {
                         <hr />
                         <PlayerView
                             player={this.state.currentPlayer}
+                            changePlayerPosition={this.changePlayerPosition}
                         />
                         <br />
                     </div>
