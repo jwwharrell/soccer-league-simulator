@@ -1,0 +1,1 @@
+export const FETCH_RANDOM_NAMES = 'FETCH_RANDOM_NAMES'
